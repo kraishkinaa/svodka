@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<script>window.SVODKA_DESKTOP=false</script>
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob:; connect-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Сводка — кадровая аналитика</title>
+<style>
+@font-face{font-family:'Onest';font-style:normal;font-weight:400 600;font-display:swap;src:url(fonts/onest-cyrillic-ext.woff2) format('woff2');unicode-range:U+0460-052F,U+1C80-1C8A,U+20B4,U+2DE0-2DFF,U+A640-A69F,U+FE2E-FE2F}
+@font-face{font-family:'Onest';font-style:normal;font-weight:400 600;font-display:swap;src:url(fonts/onest-cyrillic.woff2) format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'Onest';font-style:normal;font-weight:400 600;font-display:swap;src:url(fonts/onest-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+:root{--bg:#f5f6f8;--s:#fff;--ink:#151922;--mut:#6b7280;--line:#e5e7eb;--acc:#3b4cdf;--accs:#e8ebff;--ok:#117a4d;--bad:#b4331f;--bad2:#e11d48;--bar:#d7dbf7;--c2:#0f9d8a;--c3:#d98b1c;--c4:#9aa3b2;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#10131a;--s:#181c25;--ink:#eceef3;--mut:#98a0b0;--line:#272c38;--acc:#8c9bff;--accs:#232a52;--ok:#5fd39b;--bad:#ff8b78;--bar:#2b3466;--c2:#4fd1bd;--c3:#f0b254;--c4:#6b7487;--bad2:#ff6b5e;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#10131a;--s:#181c25;--ink:#eceef3;--mut:#98a0b0;--line:#272c38;--acc:#8c9bff;--accs:#232a52;--ok:#5fd39b;--bad:#ff8b78;--bar:#2b3466;--c2:#4fd1bd;--c3:#f0b254;--c4:#6b7487;--bad2:#ff6b5e;color-scheme:dark}
+/* Цветовые схемы: меняются только акцентные цвета, смысловые красный/зелёный остаются */
+:root[data-palette="blue"]{--acc:#1d4ed8;--accs:#e5efff;--bar:#d3e2ff;--c2:#0e7490;--c3:#b45309;--c4:#94a3b8}
+:root[data-palette="green"]{--acc:#15803d;--accs:#e6f5eb;--bar:#d2ecd9;--c2:#0f766e;--c3:#a16207;--c4:#94a3b8}
+:root[data-palette="teal"]{--acc:#0f766e;--accs:#e0f4f1;--bar:#ccebe6;--c2:#0369a1;--c3:#b45309;--c4:#94a3b8}
+:root[data-palette="orange"]{--acc:#c2410c;--accs:#ffefe6;--bar:#ffe0cf;--c2:#0f766e;--c3:#a16207;--c4:#9aa3b2}
+:root[data-palette="graphite"]{--acc:#475569;--accs:#e9edf3;--bar:#dbe1ea;--c2:#0f766e;--c3:#b45309;--c4:#9aa3b2}
+@media (prefers-color-scheme:dark){
+ :root:not([data-theme="light"])[data-palette="blue"]{--acc:#8fb0ff;--accs:#1b2a4a;--bar:#26365c;--c2:#4fd1bd;--c3:#f0b254;--c4:#6b7487}
+ :root:not([data-theme="light"])[data-palette="green"]{--acc:#6fd39a;--accs:#16301f;--bar:#21452d;--c2:#4fd1bd;--c3:#f0b254;--c4:#6b7487}
+ :root:not([data-theme="light"])[data-palette="teal"]{--acc:#5fd3c6;--accs:#123330;--bar:#1b4743;--c2:#7ab8ff;--c3:#f0b254;--c4:#6b7487}
+ :root:not([data-theme="light"])[data-palette="orange"]{--acc:#ffab7a;--accs:#3a2115;--bar:#4a2a1b;--c2:#4fd1bd;--c3:#f0b254;--c4:#6b7487}
+ :root:not([data-theme="light"])[data-palette="graphite"]{--acc:#b6c2d6;--accs:#242b38;--bar:#313a4a;--c2:#4fd1bd;--c3:#f0b254;--c4:#6b7487}
+}
+:root[data-theme="dark"][data-palette="blue"]{--acc:#8fb0ff;--accs:#1b2a4a;--bar:#26365c;--c2:#4fd1bd;--c3:#f0b254;--c4:#6b7487}
+:root[data-theme="dark"][data-palette="green"]{--acc:#6fd39a;--accs:#16301f;--bar:#21452d;--c2:#4fd1bd;--c3:#f0b254;--c4:#6b7487}
+:root[data-theme="dark"][data-palette="teal"]{--acc:#5fd3c6;--accs:#123330;--bar:#1b4743;--c2:#7ab8ff;--c3:#f0b254;--c4:#6b7487}
+:root[data-theme="dark"][data-palette="orange"]{--acc:#ffab7a;--accs:#3a2115;--bar:#4a2a1b;--c2:#4fd1bd;--c3:#f0b254;--c4:#6b7487}
+:root[data-theme="dark"][data-palette="graphite"]{--acc:#b6c2d6;--accs:#242b38;--bar:#313a4a;--c2:#4fd1bd;--c3:#f0b254;--c4:#6b7487}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 15px/1.5 Onest,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.w{max-width:1160px;margin:0 auto;padding:20px 20px 56px}
+header{display:flex;flex-wrap:wrap;align-items:center;gap:12px;justify-content:space-between;margin-bottom:16px}
+.logo{font-weight:600;font-size:20px;letter-spacing:-.02em;display:flex;align-items:center;gap:8px}
+.logo svg{width:26px;height:26px;color:var(--acc)}
+.bar{display:flex;gap:8px;flex-wrap:wrap}
+button,select{font:inherit;color:var(--ink);background:var(--s);border:1px solid var(--line);border-radius:8px;padding:6px 12px;cursor:pointer}
+button.on,button.p{background:var(--acc);border-color:var(--acc);color:var(--bg)}
+button:focus-visible,select:focus-visible,input:focus-visible,a:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.priv{display:flex;gap:10px;align-items:center;background:var(--accs);border-radius:10px;padding:10px 14px;margin-bottom:16px;font-size:14px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--ok);flex:none}
+h1{font-size:28px;letter-spacing:-.025em;margin:0 0 2px;font-weight:600}
+.sub{color:var(--mut);margin:0 0 16px}
+.panel{background:var(--s);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:16px;display:none}
+.panel.on{display:block}
+.panel h2{font-size:15px;margin:0 0 10px;font-weight:600}
+.src{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.src>div{border:1px solid var(--line);border-radius:10px;padding:14px;font-size:14px}
+.src b{display:block;font-weight:600;margin-bottom:2px}
+.src span{color:var(--mut);display:block;margin-bottom:10px}
+.tag{display:inline-block;font-size:12px;padding:2px 8px;border-radius:6px;background:var(--accs);margin:8px 6px 0 0}
+.pre{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px;font-size:14px;color:var(--mut)}
+.g{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
+.c{background:var(--s);border:1px solid var(--line);border-radius:12px;padding:18px;grid-column:span 12;min-width:0;position:relative}
+@media (min-width:821px){.w4{grid-column:span 4}.w6{grid-column:span 6}.w8{grid-column:span 8}}
+.c h2{font-size:15px;font-weight:600;margin:0 0 2px}
+.c>p{margin:0 0 14px;color:var(--mut);font-size:13px}
+.c.hero{padding:22px;border-color:var(--acc)}
+.c.hero h2{font-size:20px;letter-spacing:-.02em}
+.tb{display:none;gap:4px;position:absolute;right:10px;top:10px}
+.edit .tb{display:flex}
+.tb button{padding:2px 8px;font-size:12px}
+.edit .c{border-style:dashed}
+svg.ch{width:100%;height:auto;display:block}
+.r{display:grid;grid-template-columns:100px 1fr 48px;gap:10px;align-items:center;margin:9px 0;font-size:14px}
+.r div{height:10px;background:var(--bar);border-radius:5px;overflow:hidden}
+.r div u{display:block;height:100%;background:var(--acc);border-radius:5px}
+.r em{font-style:normal;text-align:right;font-variant-numeric:tabular-nums}
+.hid{color:var(--mut)}
+.k{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:0;background:var(--s);border-radius:8px;overflow:hidden}
+.k div{background:var(--s);padding:6px 14px 6px 0;border-right:1px solid var(--line)}
+.k div+div{padding-left:14px}
+.k div:last-child{border-right:0}
+.k b{display:block;font-size:26px;font-weight:600;letter-spacing:-.02em}
+.k span{color:var(--mut);font-size:13px}.k i{font-style:normal;font-size:13px;display:block}
+.up{color:var(--ok)}.dn{color:var(--bad)}
+.dn2{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.dn2 svg{width:132px;height:132px;flex:none}
+.hero .dn2 svg{width:180px;height:180px}
+.mdgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(118px,1fr));gap:10px;margin-top:4px}
+.mdon{display:grid;justify-items:center;gap:2px;text-align:center;font-size:12px;min-width:0}
+.mdon svg{width:76px;height:76px;display:block}
+.mdon b{font-weight:600;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mdon small{color:var(--mut);font-size:11px}
+.mtotal{display:flex;justify-content:center;margin:2px 0 14px}
+.mtotal .mdon svg{width:104px;height:104px}
+.mtotal .mdon b{font-size:14px}
+.tls{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-bottom:12px}
+.tl{flex:0 1 calc((100% - 20px)/3);display:grid;grid-template-columns:12px minmax(0,1fr);grid-template-rows:auto auto auto;gap:2px 8px;align-content:center;border:1px solid var(--line);border-radius:10px;padding:10px;background:var(--s);min-width:0;height:118px;box-sizing:border-box}
+@media (max-width:760px){.tl{flex-basis:calc((100% - 10px)/2)}}
+.tl i{width:10px;height:10px;border-radius:50%;background:var(--c4);grid-row:span 3}
+.tl.s-g i{background:var(--ok)}.tl.s-y i{background:var(--c3)}.tl.s-r i{background:var(--bad)}
+.tl span{font-size:12px;color:var(--mut);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tl b{font-size:20px;font-weight:600;grid-column:2;line-height:1.15}
+.tl small{font-size:11px;color:var(--mut);grid-column:2}
+.tli{margin:0;padding-left:18px;font-size:13px;line-height:1.55;color:var(--ink)}
+.tli li{margin:5px 0}
+.data-meta{display:flex;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--mut)}
+.data-meta div{display:flex;gap:6px;align-items:baseline}
+.data-meta b{color:var(--ink)}
+.lg{font-size:14px;display:grid;gap:5px}
+.lg i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:8px}
+.gt{font-size:13px}
+.gr{display:grid;grid-template-columns:110px 1fr;align-items:center;gap:8px;margin:7px 0}
+.gdate{display:block;font-style:normal;font-size:11px;color:var(--mut);font-variant-numeric:tabular-nums;white-space:nowrap}
+.gr .hot+.gdate{color:var(--bad)}
+.gr>div{position:relative;height:14px;background:repeating-linear-gradient(90deg,var(--line) 0 1px,transparent 1px 8.333%)}
+.gr u{position:absolute;top:2px;height:10px;border-radius:5px;background:var(--c2)}
+.gh{display:grid;grid-template-columns:110px 1fr;color:var(--mut);font-size:12px}
+.gh div{display:flex;justify-content:space-between}
+/* График отпусков: даты внутри полосок, недельная сетка */
+.gt2{font-size:13px}
+.gt2-head,.gt2-row{display:grid;grid-template-columns:150px minmax(0,1fr);gap:8px;align-items:center}
+.gt2-head{margin-bottom:4px;align-items:end}
+.gt2-tl{position:relative;min-width:0}
+.gt2-months,.gt2-dates{position:relative;height:14px;font-size:10px;color:var(--mut);line-height:1.25}
+.gt2-months span,.gt2-dates span{position:absolute;top:0;text-align:left;padding-left:3px;white-space:nowrap;overflow:hidden}
+.gt2-months span{border-left:1px solid var(--line)}
+.gt2-row{margin:5px 0}
+.gt2-name{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.gt2-name small{display:block;color:var(--mut);font-size:11px;font-weight:400;overflow:hidden;text-overflow:ellipsis}
+.gt2-track{position:relative;height:22px;border-left:1px solid var(--line);border-right:1px solid var(--line);background:repeating-linear-gradient(90deg,var(--line) 0 1px,transparent 1px 7.7778%)}
+.gt2-bar{position:absolute;top:2px;height:18px;min-width:54px;border:1px solid var(--line);border-radius:4px;background:var(--bar);color:var(--ink);display:flex;align-items:center;justify-content:center;font-size:9px;line-height:1;white-space:nowrap;overflow:visible;padding:0 3px;letter-spacing:-.02em}
+.gt2-bar em{font-style:normal;font-variant-numeric:tabular-nums}
+.gt2-empty{color:var(--mut);margin:8px 0}
+/* Настройка полей калькуляции и цветовых схем */
+.palette-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(128px,1fr));gap:6px;margin-top:10px}
+.palette-btn{display:flex;align-items:center;gap:7px;font-size:12px;padding:6px 8px;text-align:left}
+.palette-btn i{width:14px;height:14px;border-radius:50%;flex:none}
+.palette-btn.on{border-color:var(--acc);box-shadow:inset 0 0 0 1px var(--acc)}
+.cp-fields{margin-top:10px}
+.cp-fields summary{cursor:pointer;color:var(--mut);font-size:13px}
+.lock{position:absolute;inset:0;background:color-mix(in srgb,var(--s) 94%,transparent);backdrop-filter:blur(4px);border-radius:12px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:10px;padding:20px;text-align:center;font-size:14px}
+.lock label{display:flex;gap:8px;align-items:flex-start;text-align:left;max-width:360px}
+a{color:var(--acc)}
+.tray{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px;align-items:center;font-size:14px;color:var(--mut)}
+footer{color:var(--mut);font-size:13px;margin-top:24px}
+details{margin-top:8px;font-size:13px}
+.cp{display:grid;grid-template-columns:1.3fr 1fr;gap:28px}@media (max-width:820px){.cp{grid-template-columns:1fr}}.fl{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:13px;margin:6px 0}.fl input{width:96px;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:4px 8px;text-align:right}pre{background:var(--bg);border-radius:8px;padding:10px;overflow:auto;font-size:12px;max-height:220px}
+@media print{:root,:root[data-theme="dark"],:root:not([data-theme="light"]),:root[data-palette],:root[data-theme="dark"][data-palette],:root:not([data-theme="light"])[data-palette]{--bg:#fff;--s:#fff;--ink:#151922;--mut:#6b7280;--line:#e5e7eb;--acc:#3b4cdf;--accs:#e8ebff;--ok:#117a4d;--bad:#b4331f;--bad2:#e11d48;--bar:#d7dbf7;--c2:#0f9d8a;--c3:#d98b1c;--c4:#9aa3b2;color-scheme:light}.bar,.priv,.pre,.panel,.tray,.tb,.rm,.ph,.q,.help,footer{display:none!important}.c{break-inside:avoid}.w{padding:0}}
+.rm{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:16px;font-size:13px;color:var(--mut)}
+.rm button{padding:3px 10px;font-size:13px;border-radius:999px}
+.rm button::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--ok);margin-right:6px}
+.rm .red{border-color:var(--bad);color:var(--bad)}.rm .red::before{background:var(--bad)}
+.fn{margin-top:12px;font-size:11px;opacity:.55;color:var(--mut)}
+.ph{border:2px dashed var(--line);background:transparent;color:var(--mut);min-height:130px;cursor:pointer;display:flex;align-items:center;justify-content:center;font:inherit;font-size:15px}
+.ph:hover{border-color:var(--acc);color:var(--acc)}
+.vt{display:grid;grid-template-columns:minmax(150px,1.8fr) repeat(5,1fr) 1.2fr 1fr;gap:8px 12px;font-size:14px;min-width:720px;align-items:center}
+.vt b{font-weight:500;color:var(--mut);font-size:13px}
+.vt .hot{color:var(--bad);font-weight:600}
+.vt .crit{color:var(--bad2);font-weight:700}
+.vt .sent-ok{color:var(--ok);font-weight:600}.vt .n{cursor:pointer}.vt .n:hover,.vt .on{color:var(--acc)}.vt .on{font-weight:600}
+.vt.vtc{font-size:12.5px;gap:5px 8px;min-width:0}
+.vt.vtc b{font-size:12px}
+.vt.vtc .chi{width:64px;padding:2px 5px;font-size:12px}
+.q{width:18px;height:18px;border-radius:50%;border:1px solid var(--line);background:transparent;color:var(--mut);font-size:11px;padding:0;margin-left:6px;cursor:pointer;vertical-align:middle;line-height:1}
+.q:hover{border-color:var(--acc);color:var(--acc)}
+.help{background:var(--accs);border-radius:10px;padding:12px 14px;margin:0 0 14px;font-size:13px}
+.help p{margin:5px 0 0;line-height:1.5}.help .ds{opacity:.7;font-size:12px}
+.k2{margin:0;padding-left:18px;font-size:14px}.k2 li{margin:5px 0;color:var(--bad)}.c>.okp{color:var(--ok);margin:0}
+.btnl{display:inline-block;background:var(--s);border:1px solid var(--line);border-radius:8px;padding:6px 12px;cursor:pointer;font-size:15px}
+.plate{border:1px dashed var(--acc);background:var(--accs);border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:10px;font-size:14px;min-height:150px;justify-content:center}.plate p{margin:0;color:var(--mut)}.plate label{display:flex;gap:8px;align-items:flex-start}
+.lk{background:none;border:0;padding:0;color:var(--acc);font:inherit;cursor:pointer;text-decoration:underline}
+.ms{margin-top:20px;font-size:14px;color:var(--bad)}.ms:empty{display:none}.ms ul{margin:6px 0;padding-left:18px}.ms span{color:var(--mut);font-size:13px}
+.c>.nod{color:var(--mut);margin:0}
+.libnote{font-size:12px;color:var(--mut);margin:8px 0 0}
+.upd-hint{margin:12px 0 0;border-top:1px solid var(--line);padding-top:10px}
+.upd-hint summary{cursor:pointer;color:var(--acc);font-size:13px}
+.upd-hint-body{font-size:12px;color:var(--mut);line-height:1.55;margin-top:8px;max-height:240px;overflow:auto}
+.upd-hint-body p{margin:5px 0}
+.hm{display:grid;gap:3px;font-size:12px;align-items:center;min-width:0}.hm .hl{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.hm .hh{text-align:center;color:var(--mut);line-height:1.2;padding:2px 0}.hm .we{background:var(--line);border-radius:4px}
+.hm .hc{height:26px;border-radius:4px;display:grid;place-items:center;border:1px solid var(--line);font-size:11px}.hm .hc.bad{border:2px solid var(--bad)}
+.chi{width:84px;font:inherit;font-size:13px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:3px 6px}
+</style>
+<style>
+.vtabs{display:flex;gap:6px;margin-right:auto}
+body.tsmode .dash-only{display:none}
+body.page-mode .dash-only{display:none}
+#tsv{--warn:#d98b1c;color:var(--ink)}
+@media (prefers-color-scheme:dark){#tsv{--warn:#f0b254}}
+#tsv h1{font-size:28px;letter-spacing:-.025em;margin:0 0 2px;font-weight:600}
+#tsv .tsub{color:var(--mut);margin:0 0 16px}
+#tsv .tbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;background:var(--s);border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:12px}
+#tsv .tbar label{display:flex;gap:6px;align-items:center;color:var(--mut);font-size:13px}
+#tsv input[type=number],#tsv input[type=text],#tsv input[type=month]{font:inherit;color:var(--ink);background:var(--s);border:1px solid var(--line);border-radius:8px;padding:6px 10px}
+#tsv .tbar input[type=number]{width:70px}#tsv .tbar input[type=text]{width:130px}
+#tsv .ttool button{min-width:44px;font-weight:600}
+#tsv .twarn{color:var(--bad);font-size:13px;margin:0 0 10px;min-height:1em}
+#tsv .tnote{color:var(--mut);font-size:12px;margin:8px 0 0}
+#tsv .tsc{overflow:auto;border:1px solid var(--line);border-radius:12px;background:var(--s);max-height:66vh}
+#tsv .ts-popbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:0 0 10px;color:var(--mut);font-size:13px}
+#tsv .ts-popbar b{min-width:48px;text-align:center;color:var(--ink);font-variant-numeric:tabular-nums}
+#tsv .ts-popbar button{padding:4px 10px;border-radius:8px}
+#tsv .ts-popbar .tnote{margin:0 0 0 auto}
+#tsv .ts-popbar #ts-pop-fit{margin-left:2px}
+#tsv table{border-collapse:separate;border-spacing:0;font-size:12px;user-select:none}
+#tsv #ts-tb{width:100%;min-width:1180px}
+#tsv .tdt{width:100%}
+#tsv th,#tsv td{border-bottom:1px solid var(--line);border-right:1px solid var(--line);padding:0;text-align:center}
+#tsv thead th{position:sticky;top:0;background:var(--s);z-index:2;padding:3px 1px;font-weight:500;color:var(--mut);min-width:20px;font-size:9px}
+#tsv thead th.we{background:var(--line)}
+#tsv th.tnm{position:sticky;left:0;background:var(--s);z-index:1;text-align:left;padding:3px 6px;min-width:140px;max-width:140px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:11px}
+#tsv thead th.tnm{z-index:3}
+#tsv th.tnm small{display:block;color:var(--mut);font-weight:400;font-size:9px}
+#tsv .tx{border:0;background:none;color:var(--mut);padding:0 4px 0 0;cursor:pointer}
+#tsv td.tdp{padding:0 4px;min-width:62px;max-width:70px;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--mut);font-size:10px}
+#tsv td.tc{width:20px;min-width:20px;height:30px;cursor:pointer;font-weight:600;font-size:10px}
+#tsv td.tc.off{background:var(--line)}
+#tsv td.tc i{display:block;font-style:normal;font-weight:400;font-size:8px;line-height:1}
+#tsv td.k-ya{color:var(--ok)}#tsv td.k-b{color:var(--warn)}#tsv td.k-pr{color:var(--bad)}#tsv td.k-o{color:var(--acc)}
+#tsv td.tt{min-width:32px;padding:0 2px;font-variant-numeric:tabular-nums;font-size:10px}#tsv .neg{color:var(--bad)}
+#tsv tr.bad-rv th.tnm{background:color-mix(in srgb,var(--bad) 16%,transparent);box-shadow:inset 4px 0 0 var(--bad)}
+#tsv tr.bad-b th.tnm{background:color-mix(in srgb,var(--warn) 20%,transparent);box-shadow:inset 4px 0 0 var(--warn)}
+#tsv tr.bad-rv:hover th.tnm{background:color-mix(in srgb,var(--bad) 22%,transparent)}
+#tsv tr.bad-b:hover th.tnm{background:color-mix(in srgb,var(--warn) 26%,transparent)}
+#tsv tr:hover td.tt,#tsv tr:hover th.tnm{background:var(--accs)}
+#tsv h2{font-size:16px;margin:22px 0 8px}
+#tsv .tdt{border-collapse:collapse;font-size:13px}#tsv .tdt th,#tsv .tdt td{padding:5px 10px;border:1px solid var(--line);text-align:right}#tsv .tdt th:first-child,#tsv .tdt td:first-child{text-align:left}
+#tsv .tdt tr.ttot td{font-weight:700;border-top:2px solid var(--ink);background:color-mix(in srgb,var(--acc) 7%,transparent)}
+#tsv .tempty{padding:24px;color:var(--mut);text-align:left}
+@media print{#tsv .tbar,#tsv .ttool,#tsv .tx{display:none!important}#tsv .tsc{overflow:visible;max-height:none;border:0}@page{size:landscape;margin:8mm}}
+</style>
+<style>
+/* Локальное приложение: диалоги, подключения, уведомления */
+.modal{position:fixed;inset:0;background:rgba(12,15,22,.58);backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;padding:24px;z-index:1000}
+.modal[hidden]{display:none}
+.modal-card{background:var(--s);border:1px solid var(--line);border-radius:16px;width:min(980px,100%);max-height:90vh;overflow:auto;box-shadow:0 30px 90px rgba(0,0,0,.38)}
+.modal-card.modal-wide{width:min(1600px,97vw);max-height:96vh}
+.modal-card.modal-wide .modal-body{padding:12px 16px 16px}
+.modal-card.modal-wide #tsv .tsc{max-height:calc(96vh - 190px)}
+.modal-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 20px 12px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--s);z-index:3}
+.modal-head h2{font-size:18px;margin:0}
+.modal-body{padding:18px 20px 22px}
+.mclose{width:34px;height:34px;padding:0;font-size:20px;line-height:1;border-radius:50%}
+.mf{display:grid;gap:12px}
+.mf label{display:grid;gap:4px;font-size:13px;color:var(--mut)}
+.mf input,.mf select,.mf textarea{font:inherit;font-size:14px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px;width:100%}
+.mf textarea{min-height:74px;resize:vertical}
+.mf .hint{font-size:12px;color:var(--mut);line-height:1.45}
+.mrow{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.mrow.end{justify-content:flex-end}
+.mrow.between{justify-content:space-between}
+.steps{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 16px}
+.steps button{border-radius:999px;padding:5px 12px;font-size:13px}
+.steps button.on{background:var(--acc);border-color:var(--acc);color:var(--bg)}
+.note{background:var(--accs);border-radius:10px;padding:10px 12px;font-size:13px;line-height:1.5}
+.note.bad{background:color-mix(in srgb,var(--bad) 12%,var(--s));color:var(--bad)}
+.note.ok{background:color-mix(in srgb,var(--ok) 12%,var(--s));color:var(--ok)}
+.note p{margin:4px 0 0}
+.tbl{width:100%;border-collapse:collapse;font-size:13px}
+.tbl th,.tbl td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+.tbl th{background:var(--bg);font-weight:500;color:var(--mut);white-space:nowrap}
+.tbl td{max-width:280px;overflow:hidden;text-overflow:ellipsis}
+.tblwrap{overflow:auto;max-height:320px;border:1px solid var(--line);border-radius:10px}
+.badge{display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:2px 8px;border-radius:999px;background:var(--accs);color:var(--acc)}
+.badge.ok{background:color-mix(in srgb,var(--ok) 15%,var(--s));color:var(--ok)}
+.badge.bad{background:color-mix(in srgb,var(--bad) 14%,var(--s));color:var(--bad)}
+.int-status{font-size:12px;color:var(--mut);margin-top:8px}
+.int-status.ok{color:var(--ok)}.int-status.bad{color:var(--bad)}
+.toasts{position:fixed;right:20px;bottom:20px;display:grid;gap:8px;z-index:1200;max-width:min(420px,90vw)}
+.toast{background:var(--ink);color:var(--bg);border-radius:10px;padding:10px 14px;font-size:13px;box-shadow:0 10px 30px rgba(0,0,0,.25);animation:tin .18s ease-out}
+.toast.bad{background:var(--bad);color:#fff}.toast.ok{background:var(--ok);color:#fff}
+@keyframes tin{from{transform:translateY(6px);opacity:0}to{transform:none;opacity:1}}
+.drop{position:fixed;inset:0;z-index:1100;background:color-mix(in srgb,var(--acc) 18%,rgba(12,15,22,.55));display:flex;align-items:center;justify-content:center;border:3px dashed var(--acc);font-size:20px;font-weight:600;color:#fff;text-shadow:0 2px 8px rgba(0,0,0,.45)}
+.drop[hidden]{display:none}
+.fc{display:grid;gap:12px}
+.fc .k{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}
+.fc svg{width:100%;height:auto;display:block}
+.fc .lgd{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--mut)}
+.fc .lgd i{display:inline-block;width:18px;height:2px;background:var(--acc);vertical-align:middle;margin-right:6px}
+.fc .lgd i.dash{background:repeating-linear-gradient(90deg,var(--acc) 0 5px,transparent 5px 9px)}
+.fc.mini{padding:0}
+.fc.mini table{font-size:12px}
+.role-tip{font-size:12px;color:var(--mut)}
+@media (max-width:700px){.modal{padding:10px}.modal-card{max-height:94vh}.modal-head{padding:14px}.modal-body{padding:14px}}
+@media print{.modal,.toasts,.drop{display:none!important}}
+</style>
+<style id="v2-css">
+/* ===== Версия 2.0: сетка, адаптивность, обучение, подключения ===== */
+.w{max-width:1440px;padding:20px clamp(14px,2.2vw,32px) 56px}
+.g{grid-auto-flow:dense;align-items:stretch}
+@media (min-width:821px){.w12{grid-column:span 12}.w8{grid-column:span 8}.w6{grid-column:span 6}.w4{grid-column:span 4}}
+@media (max-width:1100px){.w8{grid-column:span 12}.w4,.w6{grid-column:span 6}}
+@media (max-width:820px){.c{grid-column:span 12!important}.w{padding:14px 12px 44px}}
+header{gap:10px}
+.vtabs{overflow-x:auto;max-width:100%;scrollbar-width:thin}
+.vtabs button{white-space:nowrap}
+.c:not(.hero){padding:16px}
+.c:not(.hero) .k b{font-size:22px}
+.c:not(.hero) .k div{padding-top:4px;padding-bottom:4px}
+.c.hero .fc .k b{font-size:24px}
+/* Прогноз: две диаграммы рядом, чтобы виджет не был чрезмерно высоким */
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:1050px){.fgrid{grid-template-columns:1fr}}
+.fbox{border:1px solid var(--line);border-radius:10px;padding:10px 12px 4px;min-width:0}
+.fbox h4{margin:0 0 2px;font-size:13px;font-weight:600}
+.fbox .fsub{color:var(--mut);font-size:11px;margin:0 0 4px}
+.fbox svg{max-height:230px}
+.fc .tblwrap{max-height:260px}
+.fc details summary{cursor:pointer;color:var(--mut);font-size:13px;margin:4px 0 0}
+/* Печатная шапка с компанией */
+.print-head{display:none;justify-content:space-between;align-items:flex-end;gap:20px;border-bottom:2px solid #151922;padding-bottom:8px;margin-bottom:14px}
+.print-head b{font-size:18px}.print-head span{font-size:12px;color:#555}
+@media print{.print-head{display:flex!important}.w{max-width:none}.c.hero{border-color:var(--line)}}
+/* Подключения */
+#connectv,#learnv{display:none}
+#connectv.on,#learnv.on{display:block}
+.page-title{font-size:28px;letter-spacing:-.025em;margin:0 0 2px;font-weight:600}
+.page-sub{color:var(--mut);margin:0 0 18px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-bottom:18px}
+.card{background:var(--s);border:1px solid var(--line);border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.card.opt{opacity:.66;border-style:dashed;background:color-mix(in srgb,var(--s) 70%,transparent)}
+.card.opt:hover{opacity:.92}
+.tag.soft{background:transparent;border:1px dashed var(--line);color:var(--mut)}
+.card h2{font-size:16px;margin:0;font-weight:600}
+.card p{margin:0;color:var(--mut);font-size:13px;line-height:1.5}
+.card .card-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:auto;padding-top:8px}
+.card .big{font-size:22px;font-weight:600}
+.card.wide{grid-column:1/-1}
+.card.locked{opacity:.7}
+.role-banner{display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:var(--accs);border-radius:10px;padding:10px 14px;margin-bottom:16px;font-size:13px}
+.role-banner b{font-weight:600}
+/* Обучение */
+.learn-hero{background:linear-gradient(135deg,var(--accs),var(--s));border:1px solid var(--line);border-radius:16px;padding:24px;margin-bottom:18px}
+.learn-hero h1{margin-bottom:6px}
+.learn-hero p{color:var(--mut);max-width:760px;margin:0}
+.learn-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.learn-card{background:var(--s);border:1px solid var(--line);border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:8px}
+.learn-card h3{font-size:15px;margin:0;display:flex;gap:8px;align-items:center}
+.learn-card .n{width:24px;height:24px;border-radius:50%;background:var(--acc);color:var(--bg);display:grid;place-items:center;font-size:12px;font-weight:600;flex:none}
+.learn-card p{color:var(--mut);font-size:13px;margin:0;line-height:1.55}
+.learn-card .ex{margin-top:auto;display:flex;gap:8px;flex-wrap:wrap;padding-top:8px}
+.learn-progress{font-size:13px;color:var(--mut);margin-top:16px}
+.learn-progress b{color:var(--ok)}
+.learn-card.done{border-color:var(--ok);box-shadow:inset 0 0 0 1px var(--ok)}
+.learn-card.done .n{background:var(--ok);color:#fff}
+.cp-more{margin-top:12px;border-top:1px solid var(--line);padding-top:10px}
+.cp-more summary{cursor:pointer;color:var(--mut);font-size:13px}
+.kpi-sm .k b{font-size:20px}
+.kpi-sm .k div{padding-top:3px;padding-bottom:3px}
+.kpi-sm .k span{font-size:12px}
+.fc .fdet summary{cursor:pointer;color:var(--mut);font-size:13px;margin-top:8px}
+.fc .fgrid .lgd{display:none}
+/* Табель 2.0 */
+#tsv td.tc{height:30px}
+#tsv td.tc b{display:block;font-style:normal;font-weight:600;line-height:1.05;font-size:9px}
+#tsv td.tc i{display:block;font-style:normal;font-weight:400;font-size:8px;line-height:1.1;color:var(--mut)}
+#tsv td.k-v{color:var(--mut)}#tsv td.k-rv{color:var(--c3)}
+#tsv select.tsched{font:inherit;font-size:9px;color:var(--ink);background:var(--s);border:1px solid var(--line);border-radius:6px;padding:1px 2px;min-width:0;width:54px;max-width:54px;text-align:center;text-align-last:center}
+#tsv.ts-big #ts-tb{font-size:18px;min-width:2100px}
+#tsv.ts-big th.tnm{min-width:230px;max-width:230px;font-size:16px;padding:6px 10px}
+#tsv.ts-big th.tnm small{font-size:12px}
+#tsv.ts-big thead th{font-size:13px;min-width:34px;padding:5px 3px}
+#tsv.ts-big td.tc{width:36px;min-width:36px;height:50px;font-size:16px}
+#tsv.ts-big td.tc i{font-size:11px}
+#tsv.ts-big td.tt{min-width:50px;font-size:14px}
+#tsv.ts-big select.tsched{font-size:13px;min-width:0;width:84px;max-width:84px}
+#tsv th.tsnm{min-width:76px;text-align:left;padding:4px 6px;font-weight:500;color:var(--mut)}
+#tsv .tbar.hint{border-style:dashed;background:transparent}
+#tsv .tlegend{display:flex;gap:10px;flex-wrap:wrap;font-size:12px;color:var(--mut);align-items:center}
+#tsv .tlegend b{font-weight:600}
+#tsv .tcalendar{font-size:12px;color:var(--mut)}
+#tsv .calendar-note{font-size:12px;color:var(--mut);margin:2px 0 0}
+/* Роли */
+.perm-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px;margin-top:6px}
+.perm-grid label{display:flex;gap:8px;align-items:flex-start;border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:13px;background:var(--bg);cursor:pointer}
+.perm-grid input{width:auto;margin-top:2px}
+.role-note{font-size:12px;color:var(--mut);line-height:1.5}
+@media (max-width:700px){
+ .cards,.learn-grid{grid-template-columns:1fr}
+ .role-banner{font-size:12px}
+ .learn-hero{padding:18px}
+ #pre .role-note{margin-left:0!important;flex-basis:100%}
+}
+<style id="v3-css">
+/* ===== Версия 3.0: профиль, настройки, печать, уведомления, сервер ===== */
+header{flex-wrap:wrap}
+.bar{flex-wrap:wrap;justify-content:flex-end}
+.iconbtn{position:relative;width:38px;height:36px;padding:0;display:inline-grid;place-items:center;font-size:16px;line-height:1;border:1px solid var(--line);background:var(--s);color:var(--ink);border-radius:9px;cursor:pointer}
+.iconbtn:hover{border-color:var(--acc);color:var(--acc)}
+.notify-badge{position:absolute;top:-6px;right:-6px;min-width:17px;height:17px;padding:0 4px;border-radius:9px;background:var(--bad);color:#fff;font-size:10px;line-height:17px;text-align:center;font-weight:600}
+.profile-btn{display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 10px 0 4px;border:1px solid var(--line);background:var(--s);color:var(--ink);border-radius:9px;cursor:pointer;font:inherit;font-size:13px}
+.profile-btn:hover{border-color:var(--acc)}
+.avatar{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--acc);color:#fff;font-size:11px;font-weight:600;flex:none}
+.settings-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:760px){.settings-grid{grid-template-columns:1fr}}
+.set-card{border:1px solid var(--line);border-radius:12px;padding:14px;background:var(--bg);min-width:0}
+.set-card.danger{border-color:color-mix(in srgb,var(--bad) 45%,var(--line));background:color-mix(in srgb,var(--bad) 6%,var(--bg))}
+.set-card.danger h3{color:var(--bad)}
+button.danger{color:var(--bad);border-color:color-mix(in srgb,var(--bad) 55%,var(--line))}
+button.danger:hover{background:color-mix(in srgb,var(--bad) 12%,transparent)}
+.set-card h3{margin:0 0 4px;font-size:15px}
+.set-card p{margin:0 0 10px;color:var(--mut);font-size:13px;line-height:1.5}
+.set-card .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.set-card label{margin:0;flex:1 1 180px}
+.set-card .sw{display:flex;gap:6px}
+.set-card .sw button{flex:1}
+.set-card .sw button.on{border-color:var(--acc);color:var(--acc);background:var(--accs)}
+.set-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.role-chips{display:flex;gap:8px;flex-wrap:wrap}
+.role-chips button{flex:0 1 auto}
+.role-chips button.on{border-color:var(--acc);background:var(--accs);color:var(--acc)}
+.profile-note{font-size:12px;color:var(--mut);line-height:1.5;margin-top:10px}
+.server-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--mut);margin-right:6px}
+.server-dot.ok{background:var(--ok)}.server-dot.bad{background:var(--bad)}
+.mail-list{display:grid;gap:8px;max-height:42vh;overflow:auto;margin:8px 0}
+.mail-row{display:grid;grid-template-columns:24px 1.4fr 1.5fr auto;gap:10px;align-items:center;border:1px solid var(--line);border-radius:10px;padding:9px 10px;font-size:13px;background:var(--bg)}
+.mail-row input{width:auto;margin:0}
+.mail-row .who b{display:block;font-weight:600}.mail-row .who small,.mail-row .when small{display:block;color:var(--mut);font-size:11px}
+.mail-row .when{color:var(--mut);font-size:12px;text-align:right}
+.mail-empty{border:1px dashed var(--line);border-radius:10px;padding:14px;color:var(--mut);font-size:13px;text-align:center}
+.mail-tabs{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 12px}
+.mail-tabs button.on{border-color:var(--acc);color:var(--acc);background:var(--accs)}
+.mail-tpl{display:grid;gap:8px;margin-top:8px}
+.mail-tpl textarea{min-height:120px;font:inherit;font-size:13px;line-height:1.5}
+.mail-hint{font-size:12px;color:var(--mut);line-height:1.5}
+.mail-status{border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:13px;margin:8px 0}
+.mail-status.ok{border-color:var(--ok);color:var(--ok)}.mail-status.bad{border-color:var(--bad);color:var(--bad)}
+.mail-preview{border:1px solid var(--line);border-radius:10px;background:#fff;color:#151922;padding:16px 18px;font-size:13px;line-height:1.55;white-space:pre-wrap;margin-top:8px}
+.tsave{font-size:11px;color:var(--mut);white-space:nowrap}
+.tsave.ok{color:var(--ok)}
+.tpager-wrap{margin:8px 0}
+.tpager{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:13px;color:var(--mut)}
+.tpager label{display:flex;align-items:center;gap:6px;color:var(--mut)}
+.tpager select{width:auto;padding:4px 8px}
+.tpager button{padding:4px 11px;min-width:34px}
+.tpager button:disabled{opacity:.4;cursor:default;border-color:var(--line)}
+.tpager .tpg-pg{color:var(--ink);font-variant-numeric:tabular-nums}
+.tcols-btn{padding:4px 11px;font-size:12px;margin-left:auto}
+.nrow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:7px 0;border-bottom:1px solid var(--line);font-size:14px}
+.nrow:last-child{border-bottom:0}
+.nrow.hot{background:color-mix(in srgb,var(--bad) 11%,transparent);border-radius:8px;padding:7px 8px;border-bottom:0}
+.nrow.sent{background:color-mix(in srgb,var(--ok) 10%,transparent);border-radius:8px;padding:7px 8px;border-bottom:0}
+.nwho{flex:1;min-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nwhen{font-size:13px;color:var(--mut);white-space:nowrap}
+.nwhen.hot{color:var(--bad);font-weight:600}
+.nsend{padding:3px 10px;font-size:12px;border-radius:7px;flex:none}
+.nmail{font-size:12px;color:var(--mut);flex:none}
+.nmail.nfix{color:var(--acc);border:1px dashed var(--acc);background:transparent;border-radius:7px;padding:2px 8px;cursor:pointer;font:inherit;font-size:12px}
+.nmail.nfix:hover{background:color-mix(in srgb,var(--acc) 12%,transparent)}
+.nrow.crit{background:color-mix(in srgb,var(--bad2) 15%,transparent);border-radius:8px;padding:7px 8px;border-bottom:0}
+.nwhen.crit{color:var(--bad2);font-weight:700}
+.nwhen.sent-ok{color:var(--ok)}
+.nwarn{color:var(--bad);font-weight:600;font-size:12px;font-style:normal;flex-basis:100%;padding-top:2px}
+.nwhen .sent-ok{color:var(--ok)}
+.bell-list{display:grid;gap:8px}
+.bell-item{display:flex;align-items:center;gap:12px;text-align:left;width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--s);cursor:pointer;font:inherit;color:var(--ink)}
+.bell-item:hover{border-color:var(--acc)}
+.bell-dot{width:10px;height:10px;border-radius:50%;background:var(--c3);flex:none}
+.bell-dot.probation{background:var(--bad)}
+.bell-dot.vacation{background:var(--c2)}
+.bell-dot.email,.bell-dot.phone{background:var(--c2)}
+.bell-dot.dep,.bell-dot.column,.bell-dot.bd,.bell-dot.empty,.bell-dot.stale{background:var(--c3)}
+.bell-dot.setup{background:var(--acc)}
+.notify-badge.dq{background:var(--c3)}
+.bell-t{flex:1;display:grid;gap:1px}
+.bell-t b{font-size:14px;font-weight:600}
+.bell-t small{color:var(--mut);font-size:12px}
+.bell-go{color:var(--mut);font-size:16px;flex:none}
+.c.demo{border-style:dashed;border-color:color-mix(in srgb,var(--c3) 55%,var(--line));opacity:.92}
+.fn.demo{color:var(--c3);font-weight:600}
+.emp-list{display:grid;gap:8px;margin-top:12px}
+.emp-row{display:flex;align-items:center;gap:12px;text-align:left;width:100%;padding:11px 14px;border:1px solid var(--line);border-radius:11px;background:var(--s);cursor:pointer;font:inherit;color:var(--ink)}
+.emp-row:hover{border-color:var(--acc)}
+.er-name{flex:1.4;font-weight:600;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.er-meta{flex:1;color:var(--mut);font-size:13px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.er-tab{color:var(--mut);font-size:13px;font-variant-numeric:tabular-nums;flex:none}
+.er-status{flex:none;font-size:11px;padding:2px 7px;border-radius:999px;border:1px solid var(--line);color:var(--mut);white-space:nowrap}
+.er-status.on{color:var(--ok);border-color:color-mix(in srgb,var(--ok) 40%,var(--line))}
+.er-status.off{color:var(--bad);border-color:color-mix(in srgb,var(--bad) 35%,var(--line))}
+.er-arrow{color:var(--mut);flex:none;font-size:16px}
+.emp-facts{display:grid;grid-template-columns:1fr 1fr;gap:2px 16px;margin-bottom:12px}
+.emp-facts label{display:flex;justify-content:space-between;gap:10px;font-size:13px;color:var(--mut);border-bottom:1px solid var(--line);padding:5px 0}
+.emp-facts b{color:var(--ink);font-weight:500;text-align:right}
+.emp-contacts{display:grid;gap:8px;margin-bottom:12px}
+.emp-contacts label{display:grid;gap:4px;font-size:13px;color:var(--mut)}
+.emp-contacts input{width:100%}
+.emp-vac{border-top:1px solid var(--line);padding-top:10px;font-size:13px}
+.emp-vac>div{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.emp-vac span{background:var(--bg);border-radius:7px;padding:3px 8px;font-size:12px}
+.emp-edit-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.emp-edit-grid label{display:grid;gap:4px;font-size:12px;color:var(--mut)}
+.emp-edit-grid input,.emp-edit-grid select{width:100%}
+.emp-status-line{display:flex;align-items:center;justify-content:space-between;gap:10px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:8px 0;margin:4px 0 10px;font-size:13px}
+.emp-vac .emp-vac-list{display:block}
+.emp-vac-row{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:6px;align-items:center;margin-top:6px}
+.emp-vac-row input{min-height:32px;padding:5px 8px}
+.emp-vac-row button{width:30px;height:30px;padding:0}
+@media (max-width:700px){.emp-edit-grid{grid-template-columns:1fr}.emp-vac-row{grid-template-columns:1fr 1fr}}
+@media (max-width:820px){.emp-facts{grid-template-columns:1fr}}
+em.hot{color:var(--bad);font-style:normal;font-size:12px;font-weight:600}
+.gr span em.hot{margin-left:6px}
+.cols-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px 14px;margin:10px 0 14px}
+.col-item{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink);cursor:pointer}
+.col-item input{width:auto}
+header.hd{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.hd-l{display:flex;align-items:center;gap:18px;flex-wrap:wrap;min-width:0}
+.hd-r{display:flex;align-items:center;gap:8px}
+.ver{margin-left:6px;font-size:10px;font-weight:600;color:var(--acc);background:var(--accs);border-radius:999px;padding:1px 7px;vertical-align:middle}
+.seg{display:inline-flex;background:var(--s);border:1px solid var(--line);border-radius:11px;padding:3px;gap:2px}
+.seg button{border:0;background:transparent;padding:6px 14px;border-radius:8px;color:var(--mut);font-weight:500;font-size:13px}
+.seg button:hover{color:var(--ink)}
+.seg button.on{background:var(--acc);color:#fff}
+.profile-btn{display:inline-flex;align-items:center;gap:9px;height:42px;padding:0 12px 0 4px;border:1px solid var(--line);background:var(--s);color:var(--ink);border-radius:999px;cursor:pointer;font:inherit;font-size:13px}
+.profile-btn:hover{border-color:var(--acc)}
+.profile-btn .pm{display:flex;flex-direction:column;align-items:flex-start;line-height:1.15;text-align:left}
+.profile-btn .pm b{font-weight:600;font-size:13px}
+.plan-chip{font-style:normal;font-size:10px;padding:1px 7px;border-radius:999px;background:var(--accs);color:var(--acc);margin-top:2px}
+.chev{color:var(--mut);font-size:11px}
+.dash-top{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.dash-top button{margin-top:6px}
+.tsv-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.tbar-main{align-items:center}
+.dd{position:relative}
+.dd>summary{list-style:none;cursor:pointer;border:1px solid var(--line);background:var(--s);border-radius:9px;padding:7px 12px;font-size:13px;color:var(--ink);user-select:none;display:inline-block}
+.dd>summary::-webkit-details-marker{display:none}
+.dd[open]>summary{border-color:var(--acc);color:var(--acc)}
+.dd-menu{position:absolute;z-index:40;top:calc(100% + 6px);left:0;min-width:260px;background:var(--s);border:1px solid var(--line);border-radius:12px;box-shadow:0 14px 38px rgba(0,0,0,.22);padding:8px;display:grid;gap:6px}
+.dd-menu button{text-align:left;width:100%}
+.dd-fields{display:grid;gap:8px;border-top:1px solid var(--line);padding-top:8px;margin-top:2px}
+.dd-fields label{display:grid;gap:4px}
+.dd-fields input{width:100%}
+.rchip{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);border-radius:999px;padding:4px 12px 4px 10px;background:var(--s);color:var(--ink);font:inherit;font-size:13px;cursor:pointer;width:auto}
+.rchip i{width:9px;height:9px;border-radius:50%;background:var(--rc,var(--mut));flex:none}
+.rchip:hover{border-color:var(--rc,var(--acc))}
+.rchip.on{border-color:var(--rc,var(--acc));box-shadow:inset 0 0 0 1px var(--rc,var(--acc));font-weight:600}
+.rchips{display:flex;gap:6px;flex-wrap:wrap;margin-left:auto;align-items:center}
+.rtext{font-weight:600}
+.role-chips{display:flex;gap:8px;flex-wrap:wrap;margin:4px 0 8px}
+.profile-btn .avatar{background:var(--rc,var(--acc))}
+.menu-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.menu-sec{border:1px solid var(--line);border-radius:12px;padding:14px;background:var(--s)}
+.menu-sec h3{margin:0 0 10px;font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.04em}
+.menu-list{display:grid;gap:6px}
+.menu-list button{text-align:left;width:100%}
+.plan-card{border-radius:10px;padding:10px 12px;margin-bottom:10px;background:var(--accs);font-size:13px}
+.plan-card b{display:block;margin-bottom:3px}
+.plan-card p{margin:0;color:var(--mut)}
+.plan-card.expired{background:color-mix(in srgb,var(--bad) 14%,transparent)}
+.plan-card.license{background:color-mix(in srgb,var(--ok) 14%,transparent)}
+.plan-chip.license{background:color-mix(in srgb,var(--ok) 20%,transparent);color:var(--ok)}
+.plan-chip.expired{background:color-mix(in srgb,var(--bad) 18%,transparent);color:var(--bad)}
+.rlist{display:grid;gap:8px;margin-bottom:10px}
+.rrow{display:flex;align-items:center;gap:12px;border:1px solid var(--line);border-radius:12px;padding:10px 12px;flex-wrap:wrap}
+.rdot{width:12px;height:12px;border-radius:50%;flex:none}
+.rrow-t{display:grid;gap:2px;min-width:160px;flex:1}
+.rrow-t small{color:var(--mut)}
+.rrow-a{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.swatches{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.sw-c{width:20px;height:20px;padding:0;border-radius:50%;border:2px solid transparent;cursor:pointer}
+.sw-c.on{border-color:var(--ink)}
+.sw-pick{display:inline-flex;cursor:pointer}
+.sw-pick input{position:absolute;opacity:0;width:1px;height:1px}
+.sw-pick span{width:24px;height:24px;border-radius:50%;display:block;border:2px solid transparent}
+.sw-pick input:checked+span{border-color:var(--ink)}
+.role-new{border:1px dashed var(--line);border-radius:12px;padding:12px;margin-bottom:12px;display:grid;gap:10px}
+.role-new[hidden]{display:none}
+.tcols-btn{padding:4px 11px}
+.learn-feature{margin-bottom:14px;background:var(--s)}
+.learn-feature .learn-steps{color:var(--mut);margin:8px 0 12px;padding-left:20px;line-height:1.6}
+.learn-details{margin:10px 0;border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:var(--bg)}
+.learn-details summary{cursor:pointer;font-weight:600}
+.learn-details .learn-list{margin:8px 0 0;padding-left:20px;color:var(--mut);line-height:1.6}
+.lgate{position:fixed;inset:0;z-index:90;display:grid;place-items:center;background:rgba(10,13,22,.72);backdrop-filter:blur(4px);padding:20px}
+.lgate[hidden]{display:none}
+.lgate-card{width:100%;max-width:420px;background:var(--s);color:var(--ink);border:1px solid var(--line);border-radius:18px;padding:28px;display:grid;gap:14px;box-shadow:0 24px 70px rgba(0,0,0,.4)}
+.lgate-card h1{font-size:22px;margin:0}
+.lgate-card p{margin:0;color:var(--mut)}
+.lgate-card label{display:grid;gap:6px;color:var(--mut);font-size:13px}
+.lgate-err{color:var(--bad);font-size:13px}
+.lgate-hint{font-size:12px;color:var(--mut)}
+#tsv td.k-k{color:var(--c2)}
+#tsv .tsum{font-size:12px}
+#tsv td.tc.k-rv{background:color-mix(in srgb,var(--c3) 12%,transparent)}
+#tsv .tlegend .k{font-weight:600}
+#g .vacplan-big{display:flex;gap:24px;flex-wrap:wrap;margin:4px 0 12px}
+#g .vacplan-big div{min-width:110px}
+#g .vacplan-big b{display:block;font-size:26px;line-height:1.1}
+#g .vacplan-big span{font-size:12px;color:var(--mut)}
+/* Предпросмотр печати */
+.print-prev{background:#e8eaf0;margin:-18px;padding:18px;border-radius:10px;max-height:72vh;overflow:auto}
+.print-frame{display:block;width:100%;height:68vh;min-height:420px;border:1px solid var(--line);border-radius:10px;background:#fff}
+.print-page{background:#fff;color:#151922;width:210mm;max-width:100%;min-height:297mm;margin:0 auto;padding:14mm 12mm;box-shadow:0 8px 30px rgba(20,25,40,.18);font-size:12px}
+.print-page .print-head{display:flex!important;color:#151922}
+.print-page h1{font-size:22px;margin:8px 0 2px}.print-page .sub,.print-page .mu{color:#555}
+.print-page .c{border-color:#d9dde6;background:#fff;padding:10px;break-inside:avoid}
+.print-page .c .q,.print-page .c button,.print-page .c input,.print-page .c select,.print-page .c details:not([open]){display:none!important}
+.print-page .bar,.print-page .priv,.print-page .pre,.print-page .tray,.print-page .rm,.print-page footer,.print-page .help{display:none!important}
+.print-page .g{display:block}
+.print-page .c{margin:0 0 8px}
+.print-page table{font-size:10px}
+.print-page .tsc{overflow:visible;border:0;max-height:none}
+@media print{.print-page{box-shadow:none;margin:0;width:auto;min-height:0;padding:0}}
+/* Обучение-подсказки */
+.tour{position:fixed;inset:0;z-index:80;pointer-events:auto;background:transparent}
+.tour-hole{position:fixed;border-radius:10px;box-shadow:0 0 0 9999px rgba(8,12,24,.62),0 0 0 3px var(--acc);transition:all .22s ease;pointer-events:none;background:transparent}
+.tour-card{position:fixed;z-index:82;max-width:340px;background:var(--s);color:var(--ink);border:1px solid var(--line);border-radius:14px;padding:16px 18px;box-shadow:0 18px 50px rgba(0,0,0,.35);pointer-events:auto;transition:left .18s ease,top .18s ease}
+.tour-card:after{content:"";position:absolute;width:14px;height:14px;background:var(--s);border-left:1px solid var(--line);border-top:1px solid var(--line);transform:rotate(45deg)}
+.tour-card.below:after{top:-8px;left:var(--ax,32px)}
+.tour-card.above:after{bottom:-8px;left:var(--ax,32px);transform:rotate(225deg)}
+.tour-card h3{margin:2px 0 6px;font-size:16px}
+.tour-card p{margin:0 0 12px;color:var(--mut);font-size:13px;line-height:1.5}
+.tour-step{font-size:11px;color:var(--acc);font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.tour-buttons{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
+.tour-buttons #tour-skip{margin-right:auto}
+@media (max-width:700px){.tour-card{max-width:calc(100vw - 24px)}.print-page{padding:8mm}.profile-btn #profile-name{display:none}}
+/* Плашка окончания лицензии */
+.license-banner{display:flex;align-items:center;gap:12px;justify-content:space-between;flex-wrap:wrap;padding:10px 24px;border-bottom:1px solid var(--line);font-size:13px;position:relative;z-index:40}
+.license-banner.warn{background:#fff4d6;color:#6b4a00;border-bottom-color:#e8c97a}
+.license-banner.bad{background:#fde8e4;color:#7a2318;border-bottom-color:#e8a79a}
+.license-banner button{border:1px solid currentColor;background:transparent;color:inherit;border-radius:8px;padding:5px 10px;font:inherit;cursor:pointer}
+:root[data-theme="dark"] .license-banner.warn{background:#3a2f14;color:#f0d9a0}
+:root[data-theme="dark"] .license-banner.bad{background:#3a1d18;color:#f3b8ad}
+.telemetry-consent{position:fixed;left:16px;right:16px;bottom:16px;z-index:80;background:var(--s);border:1px solid var(--line);border-radius:14px;padding:14px 16px;display:flex;gap:14px;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;box-shadow:0 12px 34px rgba(0,0,0,.16);max-width:760px;margin:0 auto}
+.telemetry-consent p{margin:4px 0 0;color:var(--mut);font-size:12px;line-height:1.45;max-width:560px}
+.telemetry-consent .tc-actions{display:flex;gap:8px}
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]),
+select,
+textarea{font:inherit;color:var(--ink);background:var(--s);border:1px solid var(--line);border-radius:10px;padding:9px 12px;min-height:38px;box-shadow:inset 0 1px 0 rgba(255,255,255,.03);transition:border-color .15s,box-shadow .15s,background .15s}
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):hover,
+select:hover,
+textarea:hover{border-color:color-mix(in srgb,var(--acc) 35%,var(--line))}
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):focus,
+select:focus,
+textarea:focus{outline:none;border-color:var(--acc);box-shadow:0 0 0 3px var(--accs)}
+input::placeholder,textarea::placeholder{color:var(--mut);opacity:.85}
+textarea{min-height:84px;resize:vertical}
+select{min-width:120px}
+.heat-bar label{color:var(--mut);font-size:13px}
+.backup-dir-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:10px;font-size:12px;color:var(--mut)}
+.backup-dir-row b{font-weight:500;color:var(--ink);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.backup-dir-row .pick-backup-dir{padding:4px 10px;border-radius:8px;font-size:12px}
+.htip{position:fixed;z-index:1200;max-width:280px;background:var(--s);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:8px 10px;font-size:12px;line-height:1.45;box-shadow:0 10px 30px rgba(0,0,0,.24);white-space:pre-line;pointer-events:none}
+.htip[hidden]{display:none}
+.hm .hc,.hm .hl{cursor:pointer}
+.cards{align-items:start}
+.card{padding:14px 16px;gap:6px}
+.card p{font-size:12.5px;line-height:1.45}
+.card .card-actions{padding-top:6px}
+.card-more summary{cursor:pointer;color:var(--acc);font-size:12px;margin-top:2px}
+.card-more p{margin:6px 0 0}
+.set-card label{display:grid;gap:6px;color:var(--mut);font-size:13px}
+.one-hint{margin-top:4px;border:1px solid var(--line);border-radius:10px;background:var(--bg);padding:10px 12px;font-size:12.5px;line-height:1.5;color:var(--mut)}
+.one-hint b{color:var(--ink)}
+#tsv .tdp select{font-size:10px;min-width:0;width:110px;max-width:110px;min-height:0;height:22px;padding:2px 4px;border-radius:5px;background:var(--s);text-align-last:center}
+</style>
+<link rel="stylesheet" href="community.css">
+</head>
+<body>
+<div class="web-top"><b>Веб-демо «Сводки»</b><span>Файлы обрабатываются только в браузере и не отправляются на сервер</span><a href="https://kraishkinaa.github.io/svodka/" target="_blank" rel="noreferrer">Скачать полную версию</a></div>
+<div class="w">
+<div class="print-head" id="print-head"><b id="ph-company">Компания</b><span id="ph-meta">Сводка по персоналу</span></div>
+<header class="hd">
+ <div class="hd-l">
+  <div class="logo"><svg viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="15" y="3" width="8" height="5" rx="2"/><rect x="3" y="15" width="8" height="8" rx="2"/><rect x="15" y="12" width="8" height="11" rx="2"/></svg>Сводка<span class="ver">6.5</span></div>
+  <nav class="seg" aria-label="Разделы"><button data-view="dash" class="on">Сводка</button><button data-view="ts">Табель</button><button data-view="emp">Сотрудники</button></nav>
+  <select class="dash-only" id="per" aria-label="Период"><option value="1">Месяц</option><option value="3">Квартал</option><option value="6">6 месяцев</option><option value="9">9 месяцев</option><option value="12" selected>Год (последние 12 месяцев)</option></select>
+ </div>
+ <div class="hd-r bar">
+  <button class="iconbtn" id="data-check" title="Каких данных не хватает" aria-label="Качество данных">ⓘ<span class="notify-badge dq" id="data-badge" hidden>0</span></button>
+  <button class="iconbtn" id="notify-open" title="Уведомления" aria-label="Уведомления">🔔<span class="notify-badge" id="notify-badge" hidden>0</span></button>
+  <button class="iconbtn" id="theme-toggle" title="Тёмная тема" aria-label="Переключить тему">🌙</button>
+  <button class="iconbtn" id="print-open" title="Печать и PDF" aria-label="Печать и PDF">🖨</button>
+  <button class="profile-btn" id="profile-open" title="Меню: роль, тариф, разделы"><span class="avatar" id="profile-avatar">HR</span><span class="pm"><b id="profile-name">HRD</b><i class="plan-chip" id="plan-chip">Триал</i></span><span class="chev" aria-hidden="true">▾</span></button>
+ </div>
+</header>
+<div id="dashv">
+<div class="priv"><span class="dot"></span><span>Веб-версия: файлы читаются и считаются только в браузере. На сервер ничего не отправляется; 1С и hh.ru доступны только в приложении для Windows.</span></div>
+
+<div class="rm" id="rm"></div>
+
+<div class="dash-top"><h1>Сводка по персоналу</h1><button id="be" class="dash-only">Настроить вид</button></div>
+<p class="sub" id="sb">ООО «Демо» · данные на 12 ноября · демонстрационные цифры</p>
+
+<div class="pre" id="pre">Вид для:</div>
+<div class="g" id="g"></div>
+<div class="tray" id="tray"></div>
+<div class="ms" id="ms"></div>
+<footer id="policy">Веб-демо «Сводки». Файлы обрабатываются в браузере и не отправляются на сервер. Демонстрационные примеры вымышлены.</footer>
+</div>
+<section id="tsv" hidden>
+<div class="tsv-head"><h1>Табель учёта рабочего времени</h1><span class="tsave" id="ts-save-state">Автосохранение включено</span></div>
+<p class="web-note">Веб-демо: табель доступен только на демонстрационных данных. В полной версии — ваши сотрудники и графики.</p>
+<p class="tsub">Графики 5/2, 2/2 и 1/3 на каждого сотрудника. Рабочие дни по умолчанию заполняются «Я», выходные — «В». Нажатие «Я» в выходной день автоматически ставит «РВ». Часы сверх нормы дня идут в сверхурочные.</p>
+<div class="tbar tbar-main">
+ <input type="month" id="ts-mo" aria-label="Месяц">
+ <label>Подразделение <select id="ts-fd"></select></label>
+ <label>Поиск <input type="text" id="ts-q" placeholder="ФИО или номер"></label>
+ <details class="dd">
+  <summary>Сотрудники</summary>
+  <div class="dd-menu">
+   <button id="ts-emp" title="Взять сотрудников из файлов, загруженных на вкладке «Сводка»">Из загруженных данных</button>
+   <button id="ts-add">Добавить вручную</button>
+   <button id="ts-imp">Импорт списка из Excel</button><input type="file" id="ts-fi" accept=".xlsx,.xls,.csv" hidden>
+  </div>
+ </details>
+ <details class="dd">
+  <summary>Календарь и норма</summary>
+  <div class="dd-menu">
+   <button id="ts-cal" class="p" title="Загрузить производственный календарь">Производственный календарь</button>
+   <button id="ts-vac" title="Поставить «О» на рабочие дни отпусков из графика отпусков">Отпуска из графика</button>
+   <div class="dd-fields">
+    <label>Норма, ч/день <input type="number" id="ts-nrm" min="1" max="24" step="0.5"></label>
+    <label>Праздничные дни <input type="text" id="ts-hol" placeholder="например 4, 5"></label>
+    <label>Сокращённые дни (−1 ч) <input type="text" id="ts-sht" placeholder="например 3"></label>
+    <label>Рабочие выходные <input type="text" id="ts-ext" placeholder="например 10"></label>
+   </div>
+  </div>
+ </details>
+ <details class="dd">
+  <summary>Ещё</summary>
+  <div class="dd-menu">
+   <button id="ts-exp">Экспорт в Excel</button>
+   <button id="ts-prt">Печать</button>
+   <button id="ts-demo" title="Заполнить демонстрационный табель: сверхурочные, работа в выходной, командировка">Демо-табель</button>
+  </div>
+ </details>
+ <button id="ts-big" title="Увеличить таблицу табеля">Увеличить</button>
+ <button id="ts-pop" title="Открыть табель в отдельном окне">Открыть в окне</button>
+ <button id="ts-save" class="p" title="Сразу сохранить табель">Сохранить</button>
+</div>
+<div class="tbar ttool" id="ts-tl">
+ <span style="color:var(--mut)">Отметка:</span>
+ <button data-t="Я" title="Явка">Я</button><button data-t="Б" title="Больничный">Б</button><button data-t="Пр" title="Прогул">Пр</button><button data-t="О" title="Отпуск">О</button><button data-t="В" title="Выходной">В</button><button data-t="РВ" title="Работа в выходной">РВ</button><button data-t="К" title="Командировка">К</button><button data-t="" title="Стереть отметку">Стереть</button>
+ <label>Часы в ячейке <input type="number" id="ts-hrs" min="0" max="24" step="0.5" placeholder="по норме"></label>
+ <button class="p" id="ts-fill">Заполнить месяц по графику</button>
+ <button id="ts-clr">Очистить месяц</button>
+ <span style="color:var(--mut);font-size:12px">Нажмите или проведите мышью. Я, Б, П, О, В, Р — с клавиатуры, Delete стирает. Двойной щелчок задаёт часы.</span>
+</div>
+<p class="tlegend"><span><b>Я</b> — явка</span><span><b>Б</b> — больничный</span><span><b>Пр</b> — прогул</span><span><b>О</b> — отпуск</span><span><b>В</b> — выходной</span><span><b>РВ</b> — работа в выходной</span><span><b>К</b> — командировка</span><span><b style="color:var(--bad)">Красная строка</b> — больше 50% выходных отработано</span><span><b style="color:var(--warn)">Оранжевая строка</b> — больше 30% месяца на больничном</span><span class="tcalendar" id="ts-calnote"></span></p>
+<p class="twarn" id="ts-wr"></p>
+<div class="tpager-wrap" id="ts-pg"></div>
+<div class="tsc"><table id="ts-tb"></table></div>
+<div class="tpager-wrap" id="ts-pg2"></div>
+<p class="tnote" id="ts-nt"></p>
+<h2>Суммированный учёт рабочего времени</h2>
+<p class="tnote">Показаны сотрудники с графиком работы не 5/2. Для учётного периода «Квартал» или «Год» сверхурочные считаются не по каждому дню, а по итогам периода. Выберите период в строке сотрудника.</p>
+<div class="tpager-wrap" id="ts-sum-pg"></div>
+<div class="tsc" style="max-height:none"><table class="tdt" id="ts-sum"></table></div>
+<h2>Итоги по подразделениям</h2>
+<div class="tpager-wrap" id="ts-sm-pg"></div>
+<div class="tsc" style="max-height:none"><table class="tdt" id="ts-sm"></table></div>
+<p class="tnote">Итоги по отделам попадают на вкладку «Сводка» (виджет «Табель: отсутствия и переработки»). В выгрузке «По отделам» подразделения меньше 5 человек объединяются, только если в компании 80 и более человек; при меньшем штате показаны отдельно.</p>
+</section>
+
+<section id="empv" hidden>
+ <div class="tsv-head"><h1>Сотрудники</h1><span id="emp-count" class="tsave"></span></div>
+<p class="web-note">Панель сотрудников в веб-версии доступна только в демонстрационном режиме. Загрузка и работа с реальными сотрудниками — в полной версии для Windows.</p>
+ <p class="tsub">Карточка каждого сотрудника: данные из файла, отпуска, почта и телефон. Почту и телефон можно дополнить здесь — они подставятся в уведомления. Данные обновляются после загрузки файла.</p>
+ <div class="tbar tbar-main"><input type="text" id="emp-q" placeholder="Поиск: ФИО, табельный номер, отдел, должность"></div>
+ <div class="emp-list" id="emp-list"></div>
+</section>
+
+<section id="connectv">
+ <h1 class="page-title">Данные и подключения</h1>
+ <p class="page-sub">Сначала укажите компанию и загрузите файл — от этого зависят виджеты, табель и печатные формы. Роли, календарь и внешние системы — ниже.</p>
+ <div class="role-banner" id="role-banner"></div>
+ <div class="cards">
+  <div class="card">
+   <h2>Название компании</h2>
+   <p>Название подставляется в шапку главного экрана, печатных форм, PDF и выгрузок Excel. Укажите его один раз — и оно будет везде одинаковым.</p>
+   <div class="big" id="company-value">Не указано</div>
+   <div class="card-actions"><button class="p" id="company-open-2">Указать название</button></div>
+  </div>
+  <div class="card">
+   <h2>Файл Excel, CSV или XML</h2>
+   <p>Можно выбрать несколько файлов и листов. Таблицы объединяются по табельному номеру или ФИО, лишние колонки не мешают. Файл кандидатов определяется сам. Поддерживаются выгрузки Excel (.xlsx, .xls), CSV и XML (SpreadsheetML и простые табличные выгрузки 1С). Файлы можно перетащить в окно.</p>
+   <div class="card-actions"><button class="p" id="up">Выбрать файлы</button><button id="dm">Демо-данные</button><button id="cl">Очистить загруженное</button><button class="btnl" id="tpl">Шаблон Excel</button></div>
+   <input type="file" id="fi" accept=".xlsx,.xls,.csv,.xml" multiple hidden>
+   <div id="fs"></div>
+   <details class="upd-hint">
+    <summary>Какие столбцы нужны для полной работы</summary>
+    <div class="upd-hint-body">
+     <p><b>Сотрудники:</b> ФИО, табельный номер, подразделение, должность, дата приёма, дата увольнения, причина увольнения, оклад, дата рождения, пол, источник, рабочая почта, телефон, учётный период.</p>
+     <p><b>График отпусков:</b> ФИО, дата начала отпуска, дата окончания отпуска, вид отпуска, статус, фактические дата начала и дата окончания (если есть).</p>
+     <p><b>Штатное расписание:</b> подразделение, должность, количество штатных единиц.</p>
+     <p><b>Кандидаты:</b> вакансия, источник, этап, дата открытия вакансии, дата отклика, дата выхода.</p>
+     <p><b>Выгрузка из 1С:</b> подойдут те же колонки. В 1С обычно это «Физические лица» / «Сотрудники» (ФИО, подразделение, должность, дата приёма), «Кадровые перемещения» (дата увольнения, причина), «Начисления» (оклад), «График отпусков» (ФИО, даты, статус). Заголовки можно называть по-разному: приложение ищет ключевые слова. Лишние колонки игнорируются, несколько листов и файлов объединяются по табельному номеру или ФИО.</p>
+    </div>
+   </details>
+   <p class="web-note">Веб-версия: файлы читаются и обезличиваются в браузере. На сервер ничего не отправляется; виджеты строятся по агрегатам.</p>
+   <p class="libnote" id="libnote">Excel, CSV и XML читаются локально библиотекой SheetJS 0.20.3. Содержимое файлов не отправляется в интернет.</p>
+   <div class="one-hint"><b>Что выгрузить из 1С</b><br>Чаще всего достаточно отчёта <b>«Сотрудники организации»</b> или <b>«Кадровые данные сотрудников»</b>: ФИО, табельный номер, подразделение, должность, дата приёма, дата увольнения, оклад. Дополнительно — <b>«Штатное расписание»</b> (подразделение, должность, штатные единицы, оклад) и <b>«График отпусков»</b>. Если нет общего отчёта, подойдут отдельные выгрузки «Кадровые перемещения», «Начисления» и «График отпусков» — приложение объединит их по ФИО или табельному номеру и распознает столбцы по названиям.</div>
+  </div>
+  <div class="card">
+   <h2>Роли и доступ</h2>
+   <p>Собственник, HRD и рекрутер. Руководитель настраивает, какие виджеты разрешены рекрутёру, и может собрать ему экран.</p>
+   <div class="int-status" id="roles-status"></div>
+   <div class="card-actions"><button class="p" id="roles-open">Настроить роли</button></div>
+  </div>
+  <div class="card">
+   <h2>Производственный календарь</h2>
+   <p>Праздники, сокращённые дни и переносы для табеля. Можно загрузить с isdayoff.ru или из Excel, либо взять базовый набор праздников.</p>
+   <div class="int-status" id="calendar-status">Календарь не загружен</div>
+   <div class="card-actions"><button class="p" id="calendar-open-connect">Открыть календарь</button></div>
+  </div>
+  <div class="card opt">
+   <h2>1С: ЗУП и Бухгалтерия</h2>
+   <details class="card-more"><summary>Подробнее</summary><p>Прямое подключение к опубликованному REST/OData-интерфейсу 1С. Загружаются сотрудники, приём, увольнения, личные данные, отпуска и штатное расписание. Не обязательно — можно работать только с файлами.</p></details>
+   <div><i class="tag">OData</i><i class="tag">Синхронизация</i><i class="tag soft">Опционально</i></div>
+   <div class="int-status" id="onec-status">Не подключено</div>
+   <div class="card-actions"><button class="p" id="onec-open">Подключить 1С</button></div>
+  </div>
+  <div class="card opt">
+   <h2>hh.ru и Avito</h2>
+   <details class="card-more"><summary>Подробнее</summary><p>Вход в аккаунт работодателя по OAuth или токену. Загружаются вакансии и отклики с hh.ru и Avito — без резюме, телефонов и почты кандидатов. Не обязательно — можно работать только с файлами.</p></details>
+   <div><i class="tag">Только агрегаты</i><i class="tag soft">Опционально</i></div>
+   <div class="int-status" id="hh-status">Не подключено</div>
+   <div class="card-actions"><button class="p" id="hh-open">Войти через hh.ru</button></div>
+  </div>
+  <div class="card wide">
+   <h2>Резервная копия и история компании</h2>
+   <p>Резервная копия содержит загруженные таблицы, табель, настройки вида, роли, историю и параметры калькуляторов. История компании хранит срезы всех показателей по месяцам.</p>
+   <div class="int-status" id="backup-status">Копия ещё не создавалась</div>
+   <div class="card-actions">
+    <button class="p" id="backup-save">Сохранить копию</button><button id="backup-load">Восстановить</button>
+    <button id="snapshot-save">Сохранить срез истории</button><button id="snapshot-export">Скачать историю</button><button id="snapshot-import">Загрузить историю</button>
+   </div>
+   <div class="backup-dir-row"><span>Куда сохранять:</span><b class="backup-dir-note">папка по умолчанию (Документы)</b><button type="button" class="pick-backup-dir">Выбрать папку</button></div>
+  </div>
+ </div>
+</section>
+
+<section id="learnv">
+ <div class="learn-hero">
+  <h1>Функционал и обучение</h1>
+  <p>Короткие подсказки по основным возможностям. При первом запуске приложение проводит по главным экранам подсказками. Этот раздел можно открыть в любой момент; данные он не меняет.</p>
+  <div class="hero-actions"><button class="p" id="tour-start">Пройти обучение заново</button><button id="notify-open-learn">Настроить уведомления</button><button id="mail-open-learn">Почта для уведомлений</button></div>
+ </div>
+ <div class="learn-card learn-feature">
+  <h3>Excel сам распознаёт колонки и строит дашборды</h3>
+  <p>Не нужно подгонять таблицу под шаблон. Приложение читает заголовки столбцов в любом порядке и понимает синонимы: «ФИО», «Фамилия имя отчество», «Дата приёма», «Дата принятия», «Подразделение», «Отдел». Сразу после загрузки видно, что распознано и чего не хватает.</p>
+  <ol class="learn-steps">
+   <li>Загрузите файл: один или несколько листов, с сотрудниками, отпусками, кандидатами или штатным расписанием.</li>
+   <li>Проверьте блок «Распознано»: какие колонки найдены и по каким заголовкам.</li>
+   <li>Виджеты заполнятся сами: ключевые цифры, текучесть, отделы, отпуска, воронка найма. Если колонки не хватает, виджет покажет, какой столбец добавить.</li>
+  </ol>
+  <div class="ex"><button class="p" data-learn="upload">Загрузить файл</button><button data-learn="tpl">Скачать шаблон Excel</button></div>
+ </div>
+ <div class="learn-card learn-feature" id="learn-server-guide">
+  <h3>Как подключиться к серверу: пошагово для новичка</h3>
+  <p>Сервер «Сводки» — это общее хранилище данных команды. Оно работает на отдельном компьютере или в локальной сети, а приложение подключается к нему по адресу. Никакие данные не уходят в интернет сами: обмен включаете вы.</p>
+  <ol class="learn-steps">
+   <li><b>Возьмите у администратора три вещи:</b> адрес сервера, логин и пароль. Адрес выглядит как <code>http://192.168.0.10:8787</code> или <code>https://svodka.company.ru</code>. Это не сайт в интернете, а адрес вашей рабочей сети; двоеточие и цифры после него — номер программы на сервере.</li>
+   <li><b>Откройте настройки сервера:</b> меню профиля (кружок с инициалами) → «Настройки» → «Настроить сервер». Или нажмите кнопку внизу этого раздела.</li>
+   <li><b>Заполните три поля:</b> адрес, логин и пароль. Пароль приходит от администратора; в файлах приложения он не хранится в открытом виде.</li>
+   <li><b>Нажмите «Подключиться».</b> Если администратор включил двухфакторную защиту, после пароля приложение попросит 6 цифр из приложения-аутентификатора (Google Authenticator, Microsoft Authenticator и подобные) или резервный код.</li>
+   <li><b>Проверьте результат:</b> появится зелёная строка «Подключено. Пользователь: …, роль: …». Затем нажмите «Загрузить данные с сервера», чтобы получить общие данные команды. Кнопка «Отправить данные на сервер» публикует ваши изменения для остальных.</li>
+  </ol>
+  <p class="fine">Локальный режим никуда не исчезает: без сервера приложение продолжает работать на этом компьютере. Сервер нужен только для совместной работы нескольких HR.</p>
+  <details class="learn-details">
+   <summary>Если не подключается</summary>
+   <ul class="learn-list">
+    <li><b>«Не удалось подключиться к серверу».</b> Проверьте адрес без лишних пробелов и что сервер запущен. Если адрес начинается с <code>localhost</code>, сервер должен работать на этом же компьютере. В другой сети нужен адрес вида <code>http://192.168…</code> и общая сеть или VPN.</li>
+    <li><b>«Неверный логин или пароль».</b> Проверьте раскладку и Caps Lock. После нескольких ошибок вход временно блокируется — подождите 15 минут или попросите администратора сбросить пароль.</li>
+    <li><b>Просит код подтверждения.</b> Введите 6 цифр из приложения-аутентификатора. Если телефон потерян, используйте резервный код или попросите администратора сбросить второй фактор.</li>
+    <li><b>Ошибка сертификата.</b> Так бывает у самоподписанного HTTPS. Попросите администратора выдать правильный сертификат; не отключайте проверку без понимания последствий.</li>
+    <li><b>Данные не появились.</b> Нажмите «Загрузить данные с сервера». Обмен ручной: приложение не перезаписывает данные молча.</li>
+   </ul>
+  </details>
+  <div class="ex"><button class="p" data-learn="server">Открыть настройки сервера</button><button data-learn="connect">Другие подключения</button></div>
+ </div>
+ <div class="learn-grid">
+  <div class="learn-card">
+   <h3><span class="n">1</span> Загрузите Excel</h3>
+   <p>Нажмите «Выбрать файлы» и укажите выгрузку из 1С или свою таблицу. Приложение само найдёт колонки «ФИО», «Дата приёма», «Подразделение». Можно перетащить файл в окно.</p>
+   <div class="ex"><button class="p" data-learn="upload">Открыть выбор файлов</button></div>
+  </div>
+  <div class="learn-card">
+   <h3><span class="n">2</span> Добавьте виджет</h3>
+   <p>Включите режим настройки. Внизу появится лента скрытых виджетов. Нажмите на нужный — он встанет на экран. Кнопка «Готово» завершает настройку.</p>
+   <div class="ex"><button data-learn="edit">Включить настройку вида</button></div>
+  </div>
+  <div class="learn-card">
+   <h3><span class="n">3</span> Меняйте виджеты</h3>
+   <p>В режиме настройки у каждого виджета есть стрелки «Левее/Правее», кнопка «Главный» и «Скрыть». «Главный» ставит виджет первым и делает его акцентным.</p>
+   <div class="ex"><button data-learn="edit">Показать кнопки виджетов</button></div>
+  </div>
+  <div class="learn-card">
+   <h3><span class="n">4</span> Откройте подсказку</h3>
+   <p>Кнопка «?» рядом с названием виджета объясняет, как посчитаны цифры и какие колонки нужны. Это не меняет данные.</p>
+   <div class="ex"><button data-learn="help">Показать пример подсказки</button></div>
+  </div>
+  <div class="learn-card">
+   <h3><span class="n">5</span> Подключите 1С и hh.ru</h3>
+   <p>Это отдельная вкладка «Подключения». Для 1С нужен адрес OData и логин, для hh.ru — токен работодателя. Всё остальное работает без интернета.</p>
+   <div class="ex"><button data-learn="connect">Перейти в подключения</button></div>
+  </div>
+  <div class="learn-card">
+   <h3><span class="n">6</span> Печать и предпросмотр</h3>
+   <p>Кнопка с принтером в верхней панели открывает предпросмотр документа перед печатью. PDF сохраняется из того же окна. Резервная копия — в «Настройках» и «Подключениях».</p>
+   <div class="ex"><button data-learn="print">Открыть предпросмотр печати</button><button data-learn="backup">Сохранить копию</button></div>
+  </div>
+  <div class="learn-card">
+   <h3><span class="n">7</span> Роли в профиле</h3>
+   <p>Собственник, HRD и рекрутёр переключаются в «Профиле». HRD настраивает экран себе и рекрутёру. Рекрутёр добавляет только разрешённые виджеты.</p>
+   <div class="ex"><button data-learn="roles">Открыть профиль</button></div>
+  </div>
+  <div class="learn-card">
+   <h3><span class="n">8</span> Уведомления сотрудникам</h3>
+   <p>Приложение показывает испытательные сроки и отпуска, до которых осталось две недели. Шаблоны писем можно изменить, почта настраивается в «Настройках».</p>
+   <div class="ex"><button data-learn="notify">Открыть уведомления</button></div>
+  </div>
+  <div class="learn-card">
+   <h3><span class="n">9</span> Серверный режим</h3>
+   <p>Для совместной работы нескольких HR подключите приложение к серверу «Сводки»: общие данные, пользователи и роли хранятся на сервере. Локальный режим продолжает работать без сервера.</p>
+   <div class="ex"><button data-learn="server">Настроить сервер</button></div>
+  </div>
+ </div>
+ <div class="learn-progress" id="learn-progress"></div>
+</section>
+</div>
+
+<div id="tour" class="tour" hidden>
+ <div class="tour-hole" id="tour-hole"></div>
+ <div class="tour-card" id="tour-card" role="dialog" aria-live="polite">
+  <div class="tour-step" id="tour-step">1 из 10</div>
+  <h3 id="tour-title">Заголовок</h3>
+  <p id="tour-text">Текст подсказки</p>
+  <div class="tour-buttons"><button id="tour-skip">Пропустить</button><button id="tour-prev">Назад</button><button class="p" id="tour-next">Дальше</button></div>
+ </div>
+</div>
+<div id="modal" class="modal" hidden>
+ <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="modal-head"><h2 id="modal-title">Сводка</h2><button class="mclose" id="modal-close" aria-label="Закрыть">×</button></div>
+  <div class="modal-body" id="modal-body"></div>
+ </div>
+</div>
+<div id="toasts" class="toasts" aria-live="polite"></div>
+<div id="drop" class="drop" hidden>Отпустите файл, чтобы загрузить</div>
+
+<script src="vendor/xlsx.full.min.js"></script>
+<script src="js/edition.js"></script>
+<script src="core/import-rules.js"></script>
+<script src="js/timesheet-ui.js"></script>
+<script src="js/charts.js"></script>
+<script src="js/state.js"></script>
+<script src="js/widgets.js"></script>
+<script src="js/desktop.js"></script>
+<script src="js/roles.js"></script>
+<script src="js/dashboard.js"></script>
+<script src="js/import.js"></script>
+<script src="js/demo.js"></script>
+<script src="js/boot.js"></script>
+<script src="community.js"></script>
+</body>
+</html>
