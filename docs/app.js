@@ -45,7 +45,8 @@
       location.href = SITE.demoUrl || "demo/?showcase=1";
       return;
     }
-    frame.src = SITE.demoUrl || "demo/?showcase=1";
+    const base = SITE.demoUrl || "demo/?showcase=1";
+    frame.src = base + (base.indexOf("?") >= 0 ? "&" : "?") + "v=" + Date.now();
     layer.hidden = false;
     document.body.style.overflow = "hidden";
     track("demo_open");
