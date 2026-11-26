@@ -3,7 +3,17 @@
 Публичная часть: лендинг и веб-версия. Исходники Desktop и Server находятся в приватном репозитории.
 
 - Лендинг: https://kraishkinaa.github.io/svodka/
-- Веб-демо: https://kraishkinaa.github.io/svodka/demo/
+- Веб-демо: https://kraishkinaa.github.io/svodka/demo/?showcase=1
 - Скачивание Desktop закрыто до оплаты.
 
 Публикация: GitHub Pages, ветка `main`, папка `/docs`.
+
+## Статистика
+
+В `docs/site-config.js` можно включить обезличенную статистику:
+
+```js
+analytics: { provider: "goatcounter", site: "ваш-код" }
+```
+
+Создайте бесплатный сайт на goatcounter.com и вставьте его код. В панели GoatCounter будут просмотры, открытия демо и нажатия «Скачать». Файлы установщиков здесь не публикуются, поэтому фактические скачивания считаются вручную в Telegram или позже по счётчику выдачи.

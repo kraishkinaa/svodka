@@ -6,8 +6,79 @@
   const $ = (s) => document.querySelector(s);
   const SITE = window.SVODKA_SITE || {};
   const locked = !!SITE.downloadsLocked;
+  const THEME_KEY = "svodka_th";  const sysDark = () => { try { return matchMedia("(prefers-color-scheme: dark)").matches; } catch (e) { return false; } };
+  const themeGet = () => { try { const v = localStorage.getItem(THEME_KEY); return v === "dark" || v === "light" ? v : "auto"; } catch (e) { return "auto"; } };
+  const themeEffective = () => { const t = themeGet(); return t === "auto" ? (sysDark() ? "dark" : "light") : t; };
+  function themePaint() {
+    const t = themeEffective();
+    document.documentElement.dataset.theme = t;
+    const label = t === "dark" ? "Светлая тема" : "Тёмная тема";
+    document.querySelectorAll("#site-theme,#demo-theme").forEach((b) => {
+      b.textContent = t === "dark" ? "☀️" : "🌙";
+      b.title = label;
+      b.setAttribute("aria-label", label);
+    });
+  }
+  function themeSet(v) {
+    try { localStorage.setItem(THEME_KEY, v === "dark" ? "dark" : "light"); } catch (e) {}
+    themePaint();
+    const f = $("#demo-frame");
+    try {
+      if (f && f.contentDocument) f.contentDocument.documentElement.dataset.theme = themeEffective();
+    } catch (e) {}
+  }
+  document.querySelectorAll("#site-theme,#demo-theme").forEach((b) => {
+    b.addEventListener("click", () => themeSet(themeEffective() === "dark" ? "light" : "dark"));
+  });
+  themePaint();
+  function track(event) {
+    try {
+      if (window.SVODKA_ANALYTICS) window.SVODKA_ANALYTICS.track(event);
+    } catch (e) {}
+  }
+  $("#dl-buy")?.addEventListener("click", () => track("buy_click"));
+
+  function openDemo(e) {
+    if (e) e.preventDefault();
+    const layer = $("#demo-layer"), frame = $("#demo-frame");
+    if (!layer || !frame) {
+      location.href = SITE.demoUrl || "demo/?showcase=1";
+      return;
+    }
+    frame.src = SITE.demoUrl || "demo/?showcase=1";
+    layer.hidden = false;
+    document.body.style.overflow = "hidden";
+    track("demo_open");
+    setTimeout(() => {
+      try {
+        if (frame.contentDocument) frame.contentDocument.documentElement.dataset.theme = themeEffective();
+      } catch (err) {}
+    }, 300);
+  }
+  function closeDemo(scroll) {
+    const layer = $("#demo-layer"), frame = $("#demo-frame");
+    if (!layer) return;
+    layer.hidden = true;
+    if (frame) frame.src = "about:blank";
+    document.body.style.overflow = "";
+    if (scroll === "download") {
+      const el = $("#download");
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }
+  document.querySelectorAll("[data-demo-open]").forEach((a) => a.addEventListener("click", openDemo));
+  $("#demo-close")?.addEventListener("click", () => closeDemo());
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && $("#demo-layer") && !$("#demo-layer").hidden) closeDemo();
+  });
+  window.addEventListener("message", (e) => {
+    const d = e.data || {};
+    if (d.type === "svodka-demo-close") closeDemo(d.scroll);
+    else if (d.type === "svodka-track" && d.event) track(String(d.event));
+  });
 
   function openLock() {
+    track("download_locked");
     const m = $("#dl-modal");
     if (!m) return;
     const buy = $("#dl-buy");
@@ -141,6 +212,7 @@
         status.style.color = ok ? "var(--ok)" : "var(--bad)";
       };
       if (!name || !contact) return say("Укажите имя и контакт", false);
+      track("lead");
       const btn = form.querySelector('button[type="submit"]');
       if (btn) btn.disabled = true;
       try {

@@ -77,6 +77,20 @@ a:hover{text-decoration:underline}
 .dl-modal-card h3{margin:0 0 8px;font-size:20px}
 .dl-modal-card p{margin:0 0 16px;color:var(--mut);line-height:1.5}
 .dl-modal-actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+:root[data-theme="dark"]{--bg:#10131a;--s:#181c25;--ink:#eceef3;--mut:#98a0b0;--line:#272c38;--acc:#8c9bff;--accs:#232a52;--ok:#5fd39b;--bad:#ff8b78;--c2:#4fd1bd;--c3:#f0b254;color-scheme:dark}
+.theme-btn{width:38px;height:38px;padding:0;border:1px solid var(--line);border-radius:10px;background:var(--s);color:var(--ink);font-size:17px;line-height:1;cursor:pointer}
+.theme-btn:hover{border-color:var(--acc)}
+.mark svg{width:21px;height:21px}
+.demo-layer{position:fixed;inset:0;z-index:70;background:var(--bg);display:flex;flex-direction:column}
+.demo-layer[hidden]{display:none}
+.demo-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 18px;background:var(--s);border-bottom:1px solid var(--line);flex:none}
+.demo-brand{display:flex;align-items:center;gap:9px;font-size:15px}
+.demo-brand .mark{width:30px;height:30px;border-radius:9px}
+.demo-brand .mark svg{width:18px;height:18px}
+.demo-head-actions{display:flex;align-items:center;gap:8px}
+#demo-frame{width:100%;height:100%;border:0;background:var(--bg);flex:1}
+@media(max-width:700px){.demo-head{padding:8px 10px}.demo-head .btn{padding:8px 10px}.demo-brand b{font-size:14px}}
+
 .faq{display:grid;gap:10px;margin-top:16px}
 .faq details{border:1px solid var(--line);border-radius:12px;background:var(--s);padding:14px 16px}
 .faq summary{cursor:pointer;font-weight:500}

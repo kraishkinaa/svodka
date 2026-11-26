@@ -3,3 +3,30 @@
 .web-top b{font-weight:600}.web-top span{color:var(--mut)}.web-top a{margin-left:auto;color:var(--acc);font-weight:600}
 .web-note{background:color-mix(in srgb,var(--acc) 8%,transparent);border:1px solid color-mix(in srgb,var(--acc) 25%,var(--line));border-radius:10px;padding:9px 12px;font-size:12px;line-height:1.45;color:var(--ink);margin:8px 0}
 #emp-q,#emp-list{display:none!important}
+/* Режим демо */
+body.showcase-mode .web-top,
+body.showcase-mode .hd,
+body.showcase-mode .priv,
+body.showcase-mode .rm,
+body.showcase-mode .pre,
+body.showcase-mode .dash-top,
+body.showcase-mode #be,
+body.showcase-mode .tray,
+body.showcase-mode .ms,
+body.showcase-mode footer,
+body.showcase-mode #policy,
+body.showcase-mode .c .tb,
+body.showcase-mode .c h2 .q{display:none!important}
+body.showcase-mode .w{padding-top:0}
+.showcase-bar{position:sticky;top:0;z-index:45;background:color-mix(in srgb,var(--s) 94%,transparent);border-bottom:1px solid var(--line);padding:10px 22px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;backdrop-filter:blur(8px)}
+.showcase-brand{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--mut)}
+.showcase-brand b{color:var(--ink);font-size:16px}.showcase-brand span{font-size:11px}
+.showcase-mark{display:grid;place-items:center;width:30px;height:30px;border-radius:9px;background:var(--acc);color:#fff}
+.showcase-mark svg{width:19px;height:19px}
+.showcase-actions{display:flex;align-items:center;gap:8px;margin-left:auto;flex-wrap:wrap}
+.showcase-actions button{font:inherit;border:1px solid var(--line);background:var(--s);color:var(--ink);border-radius:9px;padding:7px 11px;cursor:pointer}
+.showcase-actions button.p{background:var(--acc);border-color:var(--acc);color:#fff}
+.showcase-status{font-size:12px;color:var(--muted);max-width:360px}
+.showcase-privacy{flex-basis:100%;font-size:11px;color:var(--muted);border-top:1px solid var(--line);padding-top:8px;margin-top:2px}
+@media (max-width:700px){.showcase-bar{padding:8px 12px}.showcase-actions{margin-left:0}.showcase-status{order:9;flex-basis:100%}}
+

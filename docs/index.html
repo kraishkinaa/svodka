@@ -6,6 +6,7 @@
 <title>Сводка — кадровая аналитика без облака</title>
 <meta name="description" content="Сводка 6.5 — настольное приложение для HR: табель, текучесть, прогноз, отпуска и стоимость найма. Данные остаются на компьютере. Веб-версия без персональных данных.">
 <link rel="canonical" href="https://kraishkinaa.github.io/svodka/">
+<link rel="icon" href="site-icon.svg">
 <meta name="theme-color" content="#3b4cdf">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Сводка">
@@ -20,13 +21,14 @@
 </head>
 <body>
 <header class="top">
-  <div class="brand"><span class="mark">С</span><div><b>Сводка</b><small>кадровая аналитика · 6.5.6</small></div></div>
+  <div class="brand"><span class="mark"><svg viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="15" y="3" width="8" height="5" rx="2"/><rect x="3" y="15" width="8" height="8" rx="2"/><rect x="15" y="12" width="8" height="11" rx="2"/></svg></span><div><b>Сводка</b><small>кадровая аналитика · 6.5.6</small></div></div>
   <nav class="nav">
     <a href="#features">Возможности</a>
-    <a href="#demo" data-demo-link>Демо</a>
+    <a href="demo/?showcase=1" data-demo-open data-demo-link>Демо</a>
     <a href="#pricing">Тарифы</a>
     <a href="#download">Скачать</a>
   </nav>
+  <button type="button" class="theme-btn" id="site-theme" aria-label="Переключить тему" title="Тёмная тема">🌙</button>
   <a class="btn primary" href="#download">Скачать</a>
 </header>
 
@@ -35,7 +37,7 @@
   <p class="lead">Табель, текучесть, прогноз, отпуска и стоимость найма — в одном настольном приложении. Без облака: файлы читаются и считаются только у вас. Подходит для малого и среднего бизнеса.</p>
   <div class="hero-actions">
     <a class="btn primary lg" href="#download">Скачать для Windows</a>
-    <a class="btn ghost lg" href="#demo" data-demo-link>Посмотреть демо</a>
+    <a class="btn ghost lg" href="demo/?showcase=1" data-demo-open data-demo-link>Посмотреть демо</a>
   </div>
   <p class="fine">Windows 10/11 · 30 дней бесплатно · лицензия офлайн-ключом</p>
 </section>
@@ -178,6 +180,14 @@
   <p>© Сводка 6.5.6. Демонстрационные данные на странице вымышлены. Веб-версия обрабатывает файлы только в браузере. <a href="#download">Скачать приложение</a></p>
 </footer>
 
+<div id="demo-layer" class="demo-layer" hidden>
+  <div class="demo-head">
+    <div class="demo-brand"><span class="mark"><svg viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="15" y="3" width="8" height="5" rx="2"/><rect x="3" y="15" width="8" height="8" rx="2"/><rect x="15" y="12" width="8" height="11" rx="2"/></svg></span><b>Демо Сводки</b></div>
+    <div class="demo-head-actions"><button type="button" class="theme-btn" id="demo-theme" aria-label="Переключить тему">🌙</button><button type="button" class="btn ghost" id="demo-close">Закрыть демо</button></div>
+  </div>
+  <iframe id="demo-frame" title="Демо Сводки" src="about:blank"></iframe>
+</div>
+
 <div id="dl-modal" class="dl-modal" hidden>
   <div class="dl-modal-card" role="dialog" aria-modal="true" aria-labelledby="dl-modal-title">
     <h3 id="dl-modal-title">Скачивание скоро</h3>
@@ -191,6 +201,7 @@
 </div>
 
 <script src="site-config.js"></script>
+<script src="analytics.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
