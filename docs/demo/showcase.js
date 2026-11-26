@@ -137,6 +137,24 @@
       $("#tour-text").textContent = step.text;
       $("#tour-prev").disabled = index === 0;
       $("#tour-next").textContent = index === STEPS.length - 1 ? "Готово" : "Дальше";
+      const next = $("#tour-next");
+      let up = $("#tour-upload");
+      if (index === 7) {
+        if (!up && next) {
+          up = document.createElement("button");
+          up.type = "button";
+          up.id = "tour-upload";
+          up.className = "p";
+          up.textContent = "Загрузить Excel";
+          up.addEventListener("click", () => {
+            track("excel_upload_start");
+            $("#showcase-file")?.click();
+          });
+          next.parentNode.insertBefore(up, next);
+        }
+      } else if (up) {
+        up.remove();
+      }
       const cw = Math.min(340, window.innerWidth - 24), cardH = card.offsetHeight || 170;
       const below = r.bottom + 16, putBelow = below + cardH < window.innerHeight - 8;
       const top = putBelow ? below : Math.max(10, r.top - cardH - 16);
