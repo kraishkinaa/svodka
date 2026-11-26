@@ -23,6 +23,8 @@ a:hover{text-decoration:underline}
 .lead{color:var(--mut);font-size:17px;max-width:720px;margin:0 auto 20px}
 .hero-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
 .fine{font-size:13px;color:var(--mut)}
+.hero-facts{max-width:800px;margin:18px auto 0;padding:10px 16px;border:1px solid var(--line);border-radius:12px;background:var(--accs);font-size:14px;line-height:1.5}
+.hero-facts b{color:var(--acc);font-weight:600}
 .section{max-width:1060px;margin:0 auto;padding:40px 24px}
 .section h2{font-size:26px;letter-spacing:-.02em;margin:0 0 8px}
 .demo-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:24px 0 12px}
