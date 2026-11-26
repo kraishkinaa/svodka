@@ -23,10 +23,12 @@
   }
 
   if (provider === "goatcounter" && site) {
+    const host = site.replace(/^https?:\/\//, "").replace(/\/+$/, "").replace(/\/count$/, "");
+    const endpoint = host.indexOf(".") >= 0 ? "https://" + host + "/count" : "https://" + host + ".goatcounter.com/count";
     const s = document.createElement("script");
     s.async = true;
     s.src = "https://gc.zgo.at/count.js";
-    s.setAttribute("data-goatcounter", "https://" + site.replace(/^https?:\/\//, "").replace(/\/+$/, "") + "/count");
+    s.setAttribute("data-goatcounter", endpoint);
     s.onload = () => {
       ready = true;
       flush();
