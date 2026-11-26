@@ -13,7 +13,7 @@
     const t = themeEffective();
     document.documentElement.dataset.theme = t;
     const label = t === "dark" ? "Светлая тема" : "Тёмная тема";
-    document.querySelectorAll("#site-theme,#demo-theme").forEach((b) => {
+    document.querySelectorAll("#site-theme").forEach((b) => {
       b.textContent = t === "dark" ? "☀️" : "🌙";
       b.title = label;
       b.setAttribute("aria-label", label);
@@ -22,12 +22,12 @@
   function themeSet(v) {
     try { localStorage.setItem(THEME_KEY, v === "dark" ? "dark" : "light"); } catch (e) {}
     themePaint();
-    const f = $("#demo-frame");
+    const f = $("#demo-inline");
     try {
       if (f && f.contentDocument) f.contentDocument.documentElement.dataset.theme = themeEffective();
     } catch (e) {}
   }
-  document.querySelectorAll("#site-theme,#demo-theme").forEach((b) => {
+  document.querySelectorAll("#site-theme").forEach((b) => {
     b.addEventListener("click", () => themeSet(themeEffective() === "dark" ? "light" : "dark"));
   });
   themePaint();
@@ -38,45 +38,62 @@
   }
   $("#dl-buy")?.addEventListener("click", () => track("buy_click"));
 
-  function openDemo(e) {
-    if (e) e.preventDefault();
-    const layer = $("#demo-layer"), frame = $("#demo-frame");
-    if (!layer || !frame) {
-      location.href = SITE.demoUrl || "demo/?showcase=1";
-      return;
-    }
-    const base = SITE.demoUrl || "demo/?showcase=1";
-    frame.src = base + (base.indexOf("?") >= 0 ? "&" : "?") + "v=" + Date.now();
-    layer.hidden = false;
-    document.body.style.overflow = "hidden";
-    track("demo_open");
-    setTimeout(() => {
-      try {
-        if (frame.contentDocument) frame.contentDocument.documentElement.dataset.theme = themeEffective();
-      } catch (err) {}
-    }, 300);
+  const demoFrame = $("#demo-inline");
+  let tourPending = false;
+  function syncDemoTheme() {
+    try {
+      if (demoFrame && demoFrame.contentDocument) demoFrame.contentDocument.documentElement.dataset.theme = themeEffective();
+    } catch (e) {}
   }
-  function closeDemo(scroll) {
-    const layer = $("#demo-layer"), frame = $("#demo-frame");
-    if (!layer) return;
-    layer.hidden = true;
-    if (frame) frame.src = "about:blank";
-    document.body.style.overflow = "";
-    if (scroll === "download") {
-      const el = $("#download");
-      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
+  function sendTour() {
+    try {
+      if (demoFrame && demoFrame.contentWindow) demoFrame.contentWindow.postMessage({ type: "svodka-tour-start" }, "*");
+    } catch (e) {}
   }
-  document.querySelectorAll("[data-demo-open]").forEach((a) => a.addEventListener("click", openDemo));
-  $("#demo-close")?.addEventListener("click", () => closeDemo());
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && $("#demo-layer") && !$("#demo-layer").hidden) closeDemo();
+  function jumpTo(el) {
+    if (!el) return;
+    const top = el.getBoundingClientRect().top + window.scrollY - 8;
+    const se = document.scrollingElement || document.documentElement;
+    const html = document.documentElement;
+    const prev = html.style.scrollBehavior;
+    html.style.scrollBehavior = "auto";
+    se.scrollTop = Math.max(0, top);
+    html.style.scrollBehavior = prev;
+  }
+  function openDemoSection(withTour) {
+    jumpTo($("#demo"));
+    if (!withTour) return;
+    track("demo_tour");
+    tourPending = true;
+    setTimeout(sendTour, 350);
+    setTimeout(sendTour, 1300);
+  }
+  demoFrame?.addEventListener("load", () => {
+    syncDemoTheme();
+    track("demo_ready");
+    if (tourPending) {
+      tourPending = false;
+      setTimeout(sendTour, 300);
+    }
   });
+  document.querySelectorAll("[data-demo-tour]").forEach((a) =>
+    a.addEventListener("click", (e) => {
+      e.preventDefault();
+      openDemoSection(true);
+    })
+  );
   window.addEventListener("message", (e) => {
     const d = e.data || {};
-    if (d.type === "svodka-demo-close") closeDemo(d.scroll);
-    else if (d.type === "svodka-track" && d.event) track(String(d.event));
+    if (d.type === "svodka-track" && d.event) track(String(d.event));
+    else if (d.type === "svodka-scroll") {
+      const el = $("#" + String(d.target || "download"));
+      jumpTo(el);
+    } else if (d.type === "svodka-demo-close") {
+      const el = $("#" + String(d.scroll || "download"));
+      jumpTo(el);
+    }
   });
+  if (demoFrame) syncDemoTheme();
 
   function openLock() {
     track("download_locked");
@@ -130,12 +147,6 @@
       if (e.key === "Escape") closeLock();
     });
   }
-  if (SITE.demoUrl) {
-    document.querySelectorAll("[data-demo-link]").forEach((a) => {
-      a.href = SITE.demoUrl;
-    });
-  }
-
   async function signedHref(base, name) {
     const r = await fetch("/api/download-token?file=" + encodeURIComponent(name));
     if (!r.ok) throw new Error("download token");

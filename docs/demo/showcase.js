@@ -6,6 +6,7 @@
   if (!params.has("showcase")) return;
   const $ = (s) => document.querySelector(s);
   const TOP = ["kpi", "forecast", "heat", "vac", "src", "cost", "complete"];
+  const embed = params.has("embed");
   let started = false;
 
   function track(event) {
@@ -26,6 +27,7 @@
     bar.innerHTML =
       '<div class="showcase-brand"><span class="showcase-mark">' + icon() + "</span><b>Сводка</b><span>демо</span></div>" +
       '<div class="showcase-actions"><button type="button" class="p" id="showcase-upload">Загрузить Excel</button>' +
+      '<button type="button" id="showcase-tour">Обучение</button>' +
       '<span id="showcase-status" class="showcase-status">Данные не нужно вводить вручную</span>' +
       '<button type="button" id="showcase-cta">Скачать Desktop</button></div>' +
       '<input type="file" id="showcase-file" accept=".xlsx,.xls,.csv" hidden>' +
@@ -38,8 +40,12 @@
     });
     $("#showcase-cta")?.addEventListener("click", () => {
       track("desktop_click");
-      if (window.parent && window.parent !== window) window.parent.postMessage({ type: "svodka-demo-close", scroll: "download" }, "*");
-      else window.location.hash = "download";
+      if (embed) {
+        if (window.parent && window.parent !== window) window.parent.postMessage({ type: "svodka-scroll", target: "download" }, "*");
+        else window.location.hash = "download";
+      } else if (window.parent && window.parent !== window) {
+        window.parent.postMessage({ type: "svodka-demo-close", scroll: "download" }, "*");
+      } else window.location.hash = "download";
     });
   }
 
@@ -187,7 +193,7 @@
   function finish() {
     track("demo_finished");
     stop();
-    if (window.parent && window.parent !== window) window.parent.postMessage({ type: "svodka-demo-close", scroll: "download" }, "*");
+    if (!embed && window.parent && window.parent !== window) window.parent.postMessage({ type: "svodka-demo-close", scroll: "download" }, "*");
   }
 
   function init() {
@@ -208,7 +214,18 @@
     $("#tour-skip")?.addEventListener("click", stop);
     $("#tour-prev")?.addEventListener("click", () => go(index - 1));
     $("#tour-next")?.addEventListener("click", () => (index >= STEPS.length - 1 ? finish() : go(index + 1)));
-    setTimeout(start, 500);
+    $("#showcase-tour")?.addEventListener("click", () => {
+      if (!embed) track("demo_tour");
+      index = 0;
+      start();
+    });
+    window.addEventListener("message", (e) => {
+      if (e.data && e.data.type === "svodka-tour-start") {
+        index = 0;
+        start();
+      }
+    });
+    if (!embed) setTimeout(start, 500);
   }
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);

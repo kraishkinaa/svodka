@@ -3,7 +3,8 @@
 Публичная часть: лендинг и веб-версия. Исходники Desktop и Server находятся в приватном репозитории.
 
 - Лендинг: https://kraishkinaa.github.io/svodka/
-- Веб-демо: https://kraishkinaa.github.io/svodka/demo/?showcase=1
+- Живое демо встроено на главную страницу: виджеты считаются сразу, без перехода.
+- Отдельная страница демо: https://kraishkinaa.github.io/svodka/demo/?showcase=1
 - Скачивание Desktop закрыто до оплаты.
 
 Публикация: GitHub Pages, ветка `main`, папка `/docs`.
