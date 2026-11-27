@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://kraishkinaa.github.io/svodka/sitemap.xml

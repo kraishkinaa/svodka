@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Кадровая аналитика в Excel: как перестать собирать отчёты вручную</title>
+<meta name="description" content="Как загрузить кадровую выгрузку из Excel, распознать колонки, проверить ошибки и получить 24 виджета аналитики. Обезличивание в веб-демо и локальная работа в «Сводке».">
+<link rel="canonical" href="https://kraishkinaa.github.io/svodka/kadrovaya-analitika-excel/">
+<link rel="icon" href="../site-icon.svg">
+<meta name="robots" content="index,follow">
+<meta name="theme-color" content="#3b4cdf">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Кадровая аналитика в Excel — Сводка">
+<meta property="og:description" content="Загрузка выгрузки, распознавание колонок, проверка ошибок и виджеты.">
+<meta property="og:url" content="https://kraishkinaa.github.io/svodka/kadrovaya-analitika-excel/">
+<meta property="og:image" content="https://kraishkinaa.github.io/svodka/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<script>try{var t=localStorage.getItem("svodka_th");if(t==="dark"||(t!=="light"&&matchMedia("(prefers-color-scheme: dark)").matches))document.documentElement.dataset.theme="dark"}catch(e){}</script>
+<link rel="stylesheet" href="../style.css?v=6.5.6-mwyd19mm">
+<link rel="stylesheet" href="../pages.css?v=6.5.6-mwyd19mm">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Сводка","item":"https://kraishkinaa.github.io/svodka/"},{"@type":"ListItem","position":2,"name":"Кадровая аналитика в Excel","item":"https://kraishkinaa.github.io/svodka/kadrovaya-analitika-excel/"}]},
+{"@type":"Article","headline":"Кадровая аналитика в Excel: как перестать собирать отчёты вручную","description":"Загрузка выгрузки, распознавание колонок, проверка ошибок и виджеты.","inLanguage":"ru","datePublished":"2026-11-27","dateModified":"2026-11-27","author":{"@type":"Organization","name":"Сводка"},"publisher":{"@type":"Organization","name":"Сводка","logo":{"@type":"ImageObject","url":"https://kraishkinaa.github.io/svodka/site-icon.svg"}},"mainEntityOfPage":"https://kraishkinaa.github.io/svodka/kadrovaya-analitika-excel/","about":["кадровая аналитика в Excel","Excel для HR","кадровые отчёты"]},
+{"@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"Какие файлы можно загрузить?","acceptedAnswer":{"@type":"Answer","text":"Excel (.xlsx, .xls), CSV и XML-выгрузки. «Сводка» распознаёт колонки по названиям и приводит даты к единому виду."}},
+{"@type":"Question","name":"Куда отправляются данные из Excel?","acceptedAnswer":{"@type":"Answer","text":"В десктопной версии — никуда, файлы читаются на компьютере. В веб-демо файл обрабатывается в браузере, а ФИО, почта и телефон заменяются на обезличенные значения."}},
+{"@type":"Question","name":"Что делать, если колонки называются по-разному?","acceptedAnswer":{"@type":"Answer","text":"Приложение сопоставляет распространённые названия: ФИО, подразделение, дата приёма, дата увольнения, оклад. Если колонка не распознана, её можно указать вручную."}}
+]}
+]}
+</script>
+</head>
+<body>
+<div class="release-bar" role="status"><span class="release-dot"></span><span>Релиз десктопной версии — <time datetime="2026-11-29">29 ноября 2026</time>. <a href="../#download">Подробнее</a></span></div>
+<header class="top">
+  <a class="brand" href="../"><span class="mark"><svg viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="15" y="3" width="8" height="5" rx="2"/><rect x="3" y="15" width="8" height="8" rx="2"/><rect x="15" y="12" width="8" height="11" rx="2"/></svg></span><div><b>Сводка</b><small>кадровая аналитика · 6.5.6</small></div></a>
+  <nav class="nav"><a href="../#features">Возможности</a><a href="../#demo">Демо</a><a href="../#pricing">Тарифы</a><a href="../#download">Скачать</a></nav>
+  <a class="btn primary" href="../#download">Релиз 29.11</a>
+</header>
+
+<main class="page">
+  <nav class="crumbs" aria-label="Хлебные крошки"><a href="../">Сводка</a><span>/</span>Кадровая аналитика в Excel</nav>
+  <h1>Кадровая аналитика в Excel: как перестать собирать отчёты вручную</h1>
+  <p class="lead">Excel хорошо подходит для хранения выгрузки, но плохо — для повторяющейся аналитики. Каждый месяц одни и те же формулы, сводные таблицы и проверки. «Сводка» берёт эту работу на себя.</p>
+  <div class="page-meta"><span class="chip">Обновлено 27.11.2026</span><span class="chip">Релиз 29.11.2026</span><span>7 минут чтения</span></div>
+
+  <div class="toc"><b>В статье</b><a href="#problema">Проблема Excel</a><a href="#zagruzka">Загрузка</a><a href="#obez">Обезличивание</a><a href="#rezultat">Результат</a><a href="#faq">Вопросы</a></div>
+
+  <article class="article">
+    <h2 id="problema">Почему Excel начинает мешать</h2>
+    <p>В небольшой компании кадровая выгрузка часто живёт в одном файле: список сотрудников, даты приёма и увольнения, подразделения, оклады, отпуска. Пока данных мало, этого достаточно. Проблемы начинаются, когда нужно:</p>
+    <ul>
+      <li>посчитать текучесть за 12 месяцев;</li>
+      <li>сравнить подразделения;</li>
+      <li>увидеть, у кого заканчивается испытательный срок;</li>
+      <li>проверить, не пересекаются ли отпуска;</li>
+      <li>повторить всё это в следующем месяце.</li>
+    </ul>
+    <p>Формулы копируются между листами, даты вводятся в разных форматах, а итог зависит от того, кто последним сохранил файл. В результате время уходит не на выводы, а на проверку данных.</p>
+
+    <h2 id="zagruzka">Как загрузить выгрузку</h2>
+    <p>«Сводка» принимает Excel, CSV и XML. При загрузке приложение:</p>
+    <ol>
+      <li>читает листы и определяет строку заголовков;</li>
+      <li>распознаёт колонки: ФИО, подразделение, должность, дата приёма, дата увольнения, оклад, пол, источник;</li>
+      <li>приводит даты к единому формату;</li>
+      <li>показывает предупреждения о пропусках и ошибках.</li>
+    </ol>
+    <p>Если колонка названа нестандартно, её можно сопоставить вручную. Это лучше, чем переименовывать файл и надеяться, что в следующей выгрузке будет так же.</p>
+    <div class="callout"><p><b>Совет:</b> перед загрузкой уберите из файла лишние листы и итоговые строки. Чем чище таблица, тем меньше вопросов возникнет при разборе колонок.</p></div>
+
+    <h2 id="obez">Обезличивание в веб-демо</h2>
+    <p>В веб-версии можно попробовать логику на своём файле: он читается прямо в браузере. ФИО заменяются на «Сотрудник 1», «Сотрудник 2», почта и телефон очищаются. Подразделения, даты и оклады остаются для расчётов.</p>
+    <p>На сервер файл не отправляется. Это удобно, чтобы показать демо коллеге или проверить структуру данных без установки приложения.</p>
+    <p>Для реальной работы с полными данными используйте десктопную версию: она работает локально и не зависит от браузера.</p>
+
+    <h2 id="rezultat">Что получается в результате</h2>
+    <p>После загрузки строятся 24 виджета. Среди них:</p>
+    <ul>
+      <li>ключевые цифры за период;</li>
+      <li>текучесть по месяцам и подразделениям;</li>
+      <li>прогноз численности и текучести;</li>
+      <li>тепловая карта и график отпусков;</li>
+      <li>источники кандидатов и стоимость найма;</li>
+      <li>укомплектованность подразделений;</li>
+      <li>табель, отсутствия и переработки;</li>
+      <li>качество данных.</li>
+    </ul>
+    <p>Можно выбрать период, подразделение и вакансию, сохранить срез истории и выгрузить отчёт. Главное — не нужно каждый раз заново собирать сводную таблицу.</p>
+
+    <h2 id="ogran">Ограничения Excel-подхода</h2>
+    <p>Excel остаётся полезным для ручных расчётов и нестандартных выгрузок. «Сводка» не пытается его заменить полностью: она забирает повторяющуюся аналитику и контроль качества данных, а не бухгалтерские проводки.</p>
+    <p>Если в файле нет дат приёма или увольнения, часть виджетов будет пустой. Это честнее, чем показывать красивый график, построенный на догадках.</p>
+
+    <h2 id="faq">Частые вопросы</h2>
+    <h3>Какие файлы можно загрузить?</h3>
+    <p>Excel (.xlsx, .xls), CSV и XML. Приложение распознаёт колонки и приводит даты к единому виду.</p>
+    <h3>Куда отправляются данные из Excel?</h3>
+    <p>В десктопной версии — никуда. В веб-демо файл обрабатывается в браузере, а ФИО и контакты обезличиваются.</p>
+    <h3>Что делать, если колонки называются по-разному?</h3>
+    <p>Сопоставить их вручную. Приложение подсказывает распространённые варианты названий.</p>
+  </article>
+
+  <div class="page-cta">
+    <h2>Попробуйте загрузить свой Excel</h2>
+    <p>В живом демо можно прикрепить обезличенный файл и посмотреть, как пересчитываются виджеты. Десктопная версия выходит 29 ноября 2026 года.</p>
+    <div class="actions"><a class="btn primary" href="../#demo">Открыть демо</a><a class="btn ghost" href="../#download">Релиз 29.11.2026</a></div>
+  </div>
+
+  <section class="related">
+    <h2>Читайте также</h2>
+    <div class="related-grid">
+      <a href="../tabel-ucheta-rabochego-vremeni/"><b>Табель учёта рабочего времени</b><span>Как связать выгрузку с табелем.</span></a>
+      <a href="../raschet-tekuchesti-kadrov/"><b>Расчёт текучести кадров</b><span>Формула и примеры.</span></a>
+    </div>
+  </section>
+</main>
+
+<footer><p>© Сводка 6.5.6. Релиз десктопной версии — <time datetime="2026-11-29">29 ноября 2026 года</time>. <a href="../">На главную</a></p></footer>
+</body>
+</html>

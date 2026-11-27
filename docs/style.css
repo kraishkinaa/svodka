@@ -25,6 +25,25 @@ a:hover{text-decoration:underline}
 .fine{font-size:13px;color:var(--mut)}
 .hero-facts{max-width:800px;margin:18px auto 0;padding:10px 16px;border:1px solid var(--line);border-radius:12px;background:var(--accs);font-size:14px;line-height:1.5}
 .hero-facts b{color:var(--acc);font-weight:600}
+.release-bar{display:flex;align-items:center;justify-content:center;gap:9px;padding:9px 18px;background:linear-gradient(90deg,var(--accs),color-mix(in srgb,var(--accs) 55%,var(--s)));border-bottom:1px solid var(--line);font-size:14px;text-align:center}
+.release-bar a{font-weight:600;white-space:nowrap}
+.release-dot{width:8px;height:8px;border-radius:50%;background:var(--acc);box-shadow:0 0 0 4px color-mix(in srgb,var(--acc) 16%,transparent);flex:none}
+.release-bar time,.release-note time{font-weight:700;color:var(--ink)}
+.release-note{max-width:720px;margin:14px auto 0;font-size:14px;color:var(--mut)}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:22px}
+.steps>div{border:1px solid var(--line);border-radius:14px;padding:18px;background:var(--s)}
+.steps b{display:block;margin-bottom:6px}
+.steps span{display:block;color:var(--mut);font-size:14px}
+.compare{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:22px}
+.compare>div{border-left:3px solid var(--acc);padding:2px 0 2px 14px}
+.compare b{display:block;margin-bottom:4px}
+.compare span{color:var(--mut);font-size:14px}
+.topic-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-top:20px}
+.topic-grid a{display:block;border:1px solid var(--line);border-radius:13px;padding:15px 16px;background:var(--s);color:var(--ink)}
+.topic-grid a:hover{border-color:var(--acc);text-decoration:none}
+.topic-grid b{display:block;margin-bottom:4px;font-size:15px}
+.topic-grid span{display:block;color:var(--mut);font-size:13px}
+.footer-links{font-size:12px;margin:8px 0 0}
 .section{max-width:1060px;margin:0 auto;padding:40px 24px}
 .section h2{font-size:26px;letter-spacing:-.02em;margin:0 0 8px}
 .demo-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:24px 0 12px}
@@ -99,6 +118,7 @@ footer{border-top:1px solid var(--line);padding:28px 24px;text-align:center;colo
 @media (max-width:760px){
   .nav{display:none}
   .hero h1{font-size:28px}
-  .demo-grid,.dl-grid{grid-template-columns:1fr}
+  .demo-grid,.dl-grid,.steps,.compare{grid-template-columns:1fr}
   .kpis{grid-template-columns:1fr 1fr}
+  .release-bar{align-items:flex-start;text-align:left}
 }

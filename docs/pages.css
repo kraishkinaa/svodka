@@ -1,0 +1,34 @@
+.page{max-width:940px;margin:0 auto;padding:32px 24px 54px}
+.crumbs{font-size:13px;color:var(--mut);margin-bottom:18px}
+.crumbs a{color:var(--mut)}
+.crumbs span{margin:0 6px}
+.page h1{font-size:36px;line-height:1.12;letter-spacing:-.03em;margin:0 0 14px}
+.page .lead{font-size:18px;max-width:none;margin:0 0 14px}
+.page-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:center;color:var(--mut);font-size:13px;margin-bottom:22px}
+.page-meta .chip{border:1px solid var(--line);border-radius:999px;padding:3px 9px;background:var(--s)}
+.toc{border:1px solid var(--line);border-radius:14px;background:var(--s);padding:14px 18px;margin:0 0 26px;font-size:14px}
+.toc b{display:block;margin-bottom:6px}
+.toc a{display:inline-block;margin:3px 12px 3px 0}
+.article h2{font-size:24px;letter-spacing:-.02em;margin:34px 0 10px}
+.article h3{font-size:18px;margin:22px 0 8px}
+.article p{margin:0 0 14px}
+.article ul,.article ol{margin:0 0 16px;padding-left:22px}
+.article li{margin:5px 0}
+.article table{width:100%;border-collapse:collapse;font-size:14px;margin:16px 0 20px;background:var(--s)}
+.article th,.article td{text-align:left;padding:9px 11px;border:1px solid var(--line);vertical-align:top}
+.article th{font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--mut)}
+.article code{background:var(--accs);border-radius:5px;padding:1px 5px;font-size:.92em}
+.callout{border-left:4px solid var(--acc);background:var(--accs);border-radius:0 12px 12px 0;padding:14px 16px;margin:18px 0}
+.callout p:last-child{margin:0}
+.page-cta{margin:34px 0 10px;border:1px solid var(--line);border-radius:16px;padding:22px;background:linear-gradient(135deg,var(--accs),var(--s))}
+.page-cta h2{margin:0 0 6px;font-size:22px}
+.page-cta p{color:var(--mut);margin:0 0 14px}
+.page-cta .actions{display:flex;gap:10px;flex-wrap:wrap}
+.related{margin-top:30px;border-top:1px solid var(--line);padding-top:20px}
+.related h2{font-size:18px;margin:0 0 12px}
+.related-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.related-grid a{display:block;border:1px solid var(--line);border-radius:12px;padding:13px 15px;background:var(--s);color:var(--ink)}
+.related-grid a:hover{border-color:var(--acc);text-decoration:none}
+.related-grid b{display:block;font-size:14px;margin-bottom:3px}
+.related-grid span{display:block;color:var(--mut);font-size:12px}
+@media(max-width:700px){.page h1{font-size:28px}.related-grid{grid-template-columns:1fr}}

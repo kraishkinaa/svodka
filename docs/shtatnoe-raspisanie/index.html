@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Штатное расписание и вакансии: укомплектованность — Сводка</title>
+<meta name="description" content="Как считать укомплектованность подразделений, штатные единицы и вакансии. Таблица и диаграмма по отделам, сопоставление сотрудников и штатного расписания в «Сводке».">
+<link rel="canonical" href="https://kraishkinaa.github.io/svodka/shtatnoe-raspisanie/">
+<link rel="icon" href="../site-icon.svg">
+<meta name="robots" content="index,follow">
+<meta name="theme-color" content="#3b4cdf">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Штатное расписание и вакансии — Сводка">
+<meta property="og:description" content="Укомплектованность, штатные единицы и вакансии по подразделениям.">
+<meta property="og:url" content="https://kraishkinaa.github.io/svodka/shtatnoe-raspisanie/">
+<meta property="og:image" content="https://kraishkinaa.github.io/svodka/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<script>try{var t=localStorage.getItem("svodka_th");if(t==="dark"||(t!=="light"&&matchMedia("(prefers-color-scheme: dark)").matches))document.documentElement.dataset.theme="dark"}catch(e){}</script>
+<link rel="stylesheet" href="../style.css?v=6.5.6-mwyd19mm">
+<link rel="stylesheet" href="../pages.css?v=6.5.6-mwyd19mm">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Сводка","item":"https://kraishkinaa.github.io/svodka/"},{"@type":"ListItem","position":2,"name":"Штатное расписание и вакансии","item":"https://kraishkinaa.github.io/svodka/shtatnoe-raspisanie/"}]},
+{"@type":"Article","headline":"Штатное расписание и вакансии: как считать укомплектованность","description":"Штатные единицы, занятые сотрудники и вакансии по подразделениям.","inLanguage":"ru","datePublished":"2026-11-27","dateModified":"2026-11-27","author":{"@type":"Organization","name":"Сводка"},"publisher":{"@type":"Organization","name":"Сводка","logo":{"@type":"ImageObject","url":"https://kraishkinaa.github.io/svodka/site-icon.svg"}},"mainEntityOfPage":"https://kraishkinaa.github.io/svodka/shtatnoe-raspisanie/","about":["штатное расписание","вакансии","укомплектованность подразделений"]},
+{"@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"Как считается укомплектованность?","acceptedAnswer":{"@type":"Answer","text":"Укомплектованность = занятые сотрудники ÷ штатные единицы × 100%. Если в подразделении 10 единиц и 8 заняты, укомплектованность — 80%."}},
+{"@type":"Question","name":"Что делать, если сотрудник не сопоставился со штаткой?","acceptedAnswer":{"@type":"Answer","text":"Проверьте название подразделения и должность. «Сводка» показывает количество несопоставленных сотрудников, чтобы ошибка не искажала картину."}},
+{"@type":"Question","name":"Можно ли посмотреть вакансии по отделам?","acceptedAnswer":{"@type":"Answer","text":"Да. В виджете «Укомплектованность подразделений» видно штат, занятых, вакансии и процент закрытия по каждому отделу."}}
+]}
+]}
+</script>
+</head>
+<body>
+<div class="release-bar" role="status"><span class="release-dot"></span><span>Релиз десктопной версии — <time datetime="2026-11-29">29 ноября 2026</time>. <a href="../#download">Подробнее</a></span></div>
+<header class="top">
+  <a class="brand" href="../"><span class="mark"><svg viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="15" y="3" width="8" height="5" rx="2"/><rect x="3" y="15" width="8" height="8" rx="2"/><rect x="15" y="12" width="8" height="11" rx="2"/></svg></span><div><b>Сводка</b><small>кадровая аналитика · 6.5.6</small></div></a>
+  <nav class="nav"><a href="../#features">Возможности</a><a href="../#demo">Демо</a><a href="../#pricing">Тарифы</a><a href="../#download">Скачать</a></nav>
+  <a class="btn primary" href="../#download">Релиз 29.11</a>
+</header>
+
+<main class="page">
+  <nav class="crumbs" aria-label="Хлебные крошки"><a href="../">Сводка</a><span>/</span>Штатное расписание и вакансии</nav>
+  <h1>Штатное расписание и вакансии: как считать укомплектованность</h1>
+  <p class="lead">Укомплектованность показывает, насколько штат закрыт людьми. Но сама цифра по компании редко полезна: важно видеть, где именно не хватает сотрудников и как давно открыта вакансия.</p>
+  <div class="page-meta"><span class="chip">Обновлено 27.11.2026</span><span class="chip">Релиз 29.11.2026</span><span>6 минут чтения</span></div>
+
+  <div class="toc"><b>В статье</b><a href="#formula">Формула</a><a href="#razrez">По подразделениям</a><a href="#oshibki">Ошибки</a><a href="#plan">План найма</a><a href="#faq">Вопросы</a></div>
+
+  <article class="article">
+    <h2 id="formula">Формула укомплектованности</h2>
+    <p><code>Укомплектованность = занятые сотрудники ÷ штатные единицы × 100%</code></p>
+    <p>Пример: в отделе 10 штатных единиц, 8 заняты. Укомплектованность — 80%, вакантно 2 единицы. Если в компании 53 единицы и 43 заняты, общая укомплектованность — около 81%.</p>
+    <p>Считать только по компании опасно: один отдел может быть закрыт на 100%, а другой — на 50%. В среднем получится нормальная картина, хотя половина команды перегружена.</p>
+
+    <h2 id="razrez">Разрез по подразделениям</h2>
+    <p>В «Сводке» укомплектованность показывается таблицей или диаграммой. По каждому подразделению видно:</p>
+    <ul>
+      <li>штатные единицы;</li>
+      <li>занято сотрудниками;</li>
+      <li>вакансии;</li>
+      <li>процент укомплектованности;</li>
+      <li>итог по компании.</li>
+    </ul>
+    <p>Данные берутся из двух источников: штатного расписания и списка сотрудников. Если сотрудник не сопоставился со штаткой, приложение показывает это отдельно, чтобы не занижать или не завышать процент.</p>
+
+    <h2 id="oshibki">Частые ошибки</h2>
+    <p><b>1. Считать людей, а не единицы.</b> Два сотрудника на полставки — это не две штатные единицы. Если в выгрузке нет ставки, расчёт будет приблизительным.</p>
+    <p><b>2. Не обновлять штатку.</b> Вакансия закрыта, а единица всё ещё висит в файле. Или наоборот: сотрудник вышел, а строку не убрали.</p>
+    <p><b>3. Сравнивать разные периоды.</b> Штатное расписание на январь и список сотрудников на декабрь дадут ложную картину.</p>
+    <div class="callout"><p><b>Практика:</b> обновляйте штатку и список сотрудников в один день. Тогда укомплектованность будет совпадать с реальностью, а не с историей прошлого месяца.</p></div>
+
+    <h2 id="plan">Как использовать в плане найма</h2>
+    <ol>
+      <li>Найдите подразделения с самой низкой укомплектованностью.</li>
+      <li>Сравните с текучестью: люди уходят или штат просто не закрыт?</li>
+      <li>Посмотрите срок закрытия вакансий и стоимость найма.</li>
+      <li>Расставьте приоритеты: где простой дороже, туда рекрутера в первую очередь.</li>
+    </ol>
+    <p>Если вакансия открыта давно, полезно смотреть не только на её количество, но и на источник кандидатов. Иногда проблема не в рынке, а в канале: отклики есть, выходов нет.</p>
+
+    <h2 id="faq">Частые вопросы</h2>
+    <h3>Как считается укомплектованность?</h3>
+    <p>Занятые сотрудники ÷ штатные единицы × 100%. Для отдела из 10 единиц с 8 сотрудниками — 80%.</p>
+    <h3>Что делать, если сотрудник не сопоставился со штаткой?</h3>
+    <p>Проверьте название подразделения и должность. «Сводка» показывает количество несопоставленных сотрудников.</p>
+    <h3>Можно ли посмотреть вакансии по отделам?</h3>
+    <p>Да, в виджете «Укомплектованность подразделений» видны штат, занятые, вакансии и процент закрытия.</p>
+  </article>
+
+  <div class="page-cta">
+    <h2>Посмотрите укомплектованность в демо</h2>
+    <p>В демо 53 штатные единицы, 43 заняты и 10 вакансий. Полная версия со своими данными выходит 29 ноября 2026 года.</p>
+    <div class="actions"><a class="btn primary" href="../#demo">Открыть демо</a><a class="btn ghost" href="../#download">Релиз 29.11.2026</a></div>
+  </div>
+
+  <section class="related">
+    <h2>Читайте также</h2>
+    <div class="related-grid">
+      <a href="../raschet-tekuchesti-kadrov/"><b>Расчёт текучести кадров</b><span>Как связать вакансии и увольнения.</span></a>
+      <a href="../tabel-ucheta-rabochego-vremeni/"><b>Табель учёта рабочего времени</b><span>Нагрузка и переработки в подразделениях.</span></a>
+    </div>
+  </section>
+</main>
+
+<footer><p>© Сводка 6.5.6. Релиз десктопной версии — <time datetime="2026-11-29">29 ноября 2026 года</time>. <a href="../">На главную</a></p></footer>
+</body>
+</html>

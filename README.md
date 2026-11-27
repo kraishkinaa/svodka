@@ -5,6 +5,8 @@
 - Лендинг: https://kraishkinaa.github.io/svodka/
 - Живое демо встроено на главную страницу: виджеты считаются сразу, без перехода.
 - Отдельная страница демо: https://kraishkinaa.github.io/svodka/demo/?showcase=1
+- SEO-разделы: табель, текучесть, отпуска, Excel и штатное расписание.
+- Sitemap: https://kraishkinaa.github.io/svodka/sitemap.xml
 - Скачивание Desktop закрыто до оплаты.
 
 Публикация: GitHub Pages, ветка `main`, папка `/docs`.

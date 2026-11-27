@@ -123,7 +123,7 @@
       a.setAttribute("role", "button");
       a.setAttribute("aria-disabled", "true");
       a.classList.add("locked");
-      a.textContent = "Скачивание скоро";
+      a.textContent = "Откроется 29 ноября";
       a.addEventListener("click", (e) => {
         e.preventDefault();
         openLock();
@@ -131,10 +131,10 @@
     });
     ["#hash-setup", "#hash-portable"].forEach((sel) => {
       const el = $(sel);
-      if (el) el.textContent = "Ссылка появится после оплаты";
+      if (el) el.textContent = "Релиз 29.11.2026";
     });
     const note = $("#dl-note");
-    if (note) note.textContent = "Пока приложение не выложено в открытый доступ. После оплаты пришлём ссылку в Telegram.";
+    if (note) note.textContent = "Релиз десктопной версии запланирован на 29 ноября 2026 года. После релиза ссылку пришлём после оплаты. Установщик может вызвать предупреждение SmartScreen — см. вопросы.";
   }
   if (locked) {
     applyDownloadLock();
