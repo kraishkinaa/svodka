@@ -19,14 +19,14 @@ const sysDark=()=>{try{return matchMedia("(prefers-color-scheme: dark)").matches
 const themeGet=()=>{try{const v=localStorage.getItem(THEME_KEY);return v==="dark"||v==="light"?v:"auto"}catch(e){return "auto"}};
 const themeEffective=()=>{const t=themeGet();return t==="auto"?(sysDark()?"dark":"light"):t};
 const themePaint=()=>{const t=themeGet();if(t==="auto")R.removeAttribute("data-theme");else R.dataset.theme=t;
- const b=$("#theme-toggle");if(b){const dark=themeEffective()==="dark";b.textContent=dark?"☀️":"🌙";const label=dark?"Светлая тема":"Тёмная тема";b.title=label;b.setAttribute("aria-label",label)}
+ const b=$("#theme-toggle");if(b){const dark=themeEffective()==="dark";b.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-'+(dark?"sun":"moon")+'"/></svg>';const label=dark?"Светлая тема":"Тёмная тема";b.title=label;b.setAttribute("aria-label",label)}
  document.querySelectorAll("[data-theme-set]").forEach(x=>x.classList.toggle("on",x.dataset.themeSet===t))};
 const themeSet=v=>{try{if(v==="dark"||v==="light")localStorage.setItem(THEME_KEY,v);else localStorage.removeItem(THEME_KEY)}catch(e){}themePaint()};
 window.SVODKA_THEME={get:themeGet,effective:themeEffective,set:themeSet,refresh:themePaint};
 themePaint();
 $("#theme-toggle")?.addEventListener("click",()=>themeSet(themeEffective()==="dark"?"light":"dark"));
 try{matchMedia("(prefers-color-scheme: dark)").addEventListener("change",themePaint)}catch(e){}
-const PALETTES=[{id:"violet",name:"Фиолетовая",color:"#3b4cdf"},{id:"blue",name:"Синяя",color:"#1d4ed8"},{id:"green",name:"Зелёная",color:"#15803d"},{id:"teal",name:"Бирюзовая",color:"#0f766e"},{id:"orange",name:"Тёплая оранжевая",color:"#c2410c"},{id:"graphite",name:"Графитовая",color:"#475569"}];
+const PALETTES=[{id:"violet",name:"Фиолетовая",color:"#435cf5"},{id:"blue",name:"Синяя",color:"#1d4ed8"},{id:"green",name:"Зелёная",color:"#15803d"},{id:"teal",name:"Бирюзовая",color:"#0f766e"},{id:"orange",name:"Тёплая оранжевая",color:"#c2410c"},{id:"graphite",name:"Графитовая",color:"#475569"}];
 const PAL_KEY="svodka_palette";
 let PAL="violet";try{const v=localStorage.getItem(PAL_KEY);if(PALETTES.some(p=>p.id===v))PAL=v}catch(e){}
 R.dataset.palette=PAL;

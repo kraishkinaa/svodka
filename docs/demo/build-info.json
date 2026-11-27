@@ -1,8 +1,8 @@
 {
   "edition": "community",
   "version": "6.5.6",
-  "generatedAt": "2026-11-27T05:18:51.961Z",
+  "generatedAt": "2026-11-27T05:30:04.134Z",
   "landing": "https://kraishkinaa.github.io/svodka/",
   "source": "app/renderer/index.html",
-  "sha256": "33e7348a760240139a16afbbe189e49f14e908c007781d85034b22d73c9b336f"
+  "sha256": "5b29ced4c2810142e382de9f318451ab8d0bd2e2ebd92cb73c9d7480b1a4c1e4"
 }
