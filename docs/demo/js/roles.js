@@ -51,5 +51,5 @@ function draw0(){
   const rb=$("#role-banner");
   if(rb){const r=roleOf(ROLED.role);rb.innerHTML=`<span>Роль: <b class="rtext" style="color:${r.color}">${ec(r.name)}</b> <small>${r.base=="owner"?"видны все виджеты и настройки":r.base=="hrd"?"полный доступ, собирает экраны ограниченных ролей":"видны только разрешённые виджеты: "+ROLED.allowed.length}</small></span><span class="rchips">${roleList().map(x=>`<button data-p="${x.id}" class="rchip${x.id==ROLED.role?" on":""}" style="--rc:${x.color}"><i></i>${ec(x.name)}</button>`).join("")}</span>`}
   $("#rm").innerHTML="<span>Данные:</span>"+Object.keys(DS).filter(k=>k!="survey").map(k=>`<button data-src="1" class="${stale(k)?"red":""}">${DS[k]} · ${ago(k)}</button>`).join("");
- $("#be").classList.toggle("on",!!st.edit);$("#be").textContent=st.edit?"Готово":"Настроить вид";
+ $("#be").classList.toggle("on",!!st.edit);$("#be").innerHTML=st.edit?"Готово":'<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-settings"/></svg>Настроить вид';
 }
