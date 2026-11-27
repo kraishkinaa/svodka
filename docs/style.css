@@ -332,6 +332,16 @@ footer{border-color:var(--line)}
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{scroll-behavior:auto!important;transition:none!important}
 }
+/* Сворачиваемый блок сравнения с Excel */
+.section>.fold>summary{display:flex;align-items:center;gap:10px;cursor:pointer;list-style:none}
+.section>.fold>summary::-webkit-details-marker{display:none}
+.section>.fold>summary h2{margin:0;font-size:clamp(24px,2.7vw,30px);letter-spacing:-.035em}
+.section>.fold>summary h2::before{content:"";display:block;width:36px;height:3px;border-radius:2px;background:linear-gradient(90deg,var(--acc),var(--tech-cyan));margin:0 0 12px}
+.section>.fold>summary::after{content:"";flex:none;width:9px;height:9px;margin-left:auto;border-right:2px solid var(--acc);border-bottom:2px solid var(--acc);transform:rotate(45deg);transition:transform .2s ease}
+.section>.fold[open]>summary::after{transform:rotate(225deg)}
+.section>.fold .compare{margin-top:16px}
+#features .feat-grid{grid-template-columns:repeat(auto-fit,minmax(215px,1fr))}
+@media(max-width:620px){#features .feat-grid{grid-template-columns:1fr}}
 .hero{text-align:left}
 .hero-facts{text-align:left}
 .feat .feat-icon{color:var(--acc);font-size:inherit}

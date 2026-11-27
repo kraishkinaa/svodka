@@ -90,6 +90,23 @@ svg.ch{width:100%;height:auto;display:block}
 .mtotal{display:flex;justify-content:center;margin:2px 0 14px}
 .mtotal .mdon svg{width:104px;height:104px}
 .mtotal .mdon b{font-size:14px}
+.cmp{display:grid;grid-template-columns:minmax(210px,.9fr) 1.1fr;gap:20px;align-items:center;margin-top:4px}
+.cmp-total{display:grid;justify-items:center;gap:2px;padding:6px 0}
+.cmp-total .dn2{flex-direction:column;gap:10px;align-items:center}
+.cmp-total .dn2 svg{width:158px;height:158px}
+.cmp-total .dn2 .lg{display:grid;gap:5px;font-size:12.5px;justify-items:start}
+.cmp-cap{margin:0;color:var(--mut);font-size:12px;text-align:center}
+.cmp-list{display:grid;gap:11px;min-width:0}
+.cmp-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-size:13px;margin-bottom:5px}
+.cmp-head span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cmp-head b{font-variant-numeric:tabular-nums;font-weight:600}
+.cmp-track{height:7px;border-radius:999px;background:var(--bar);overflow:hidden}
+.cmp-track i{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--acc),var(--tech-violet))}
+.cmp-row.ok .cmp-track i{background:linear-gradient(90deg,var(--c2),var(--tech-cyan))}
+.cmp-row.mid .cmp-track i{background:linear-gradient(90deg,#d09225,#e8b64a)}
+.cmp-row.low .cmp-track i{background:linear-gradient(90deg,var(--bad),#f18494)}
+.cmp-row small{color:var(--mut);font-size:11.5px}
+@media(max-width:760px){.cmp{grid-template-columns:1fr}}
 .tls{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-bottom:12px}
 .tl{flex:0 1 calc((100% - 20px)/3);display:grid;grid-template-columns:12px minmax(0,1fr);grid-template-rows:auto auto auto;gap:2px 8px;align-content:center;border:1px solid var(--line);border-radius:10px;padding:10px;background:var(--s);min-width:0;height:118px;box-sizing:border-box}
 @media (max-width:760px){.tl{flex-basis:calc((100% - 10px)/2)}}
@@ -465,6 +482,10 @@ button.danger:hover{background:color-mix(in srgb,var(--bad) 12%,transparent)}
 .c.demo{border-style:dashed;border-color:color-mix(in srgb,var(--c3) 55%,var(--line));opacity:.92}
 .fn.demo{color:var(--c3);font-weight:600}
 .emp-list{display:grid;gap:8px;margin-top:12px}
+#empv .tbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:2px}
+#empv #emp-q{flex:1;min-width:220px}
+.emp-hide{display:inline-flex;align-items:center;gap:7px;flex:none;font-size:13px;color:var(--mut);white-space:nowrap;cursor:pointer;user-select:none}
+.emp-hide input{width:auto;margin:0;accent-color:var(--acc)}
 .emp-row{display:flex;align-items:center;gap:12px;text-align:left;width:100%;padding:11px 14px;border:1px solid var(--line);border-radius:11px;background:var(--s);cursor:pointer;font:inherit;color:var(--ink)}
 .emp-row:hover{border-color:var(--acc)}
 .er-name{flex:1.4;font-weight:600;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -924,7 +945,7 @@ footer{padding-top:14px;border-top:1px solid var(--line)}
  <div class="tsv-head"><h1>Сотрудники</h1><span id="emp-count" class="tsave"></span></div>
 <p class="web-note">Панель сотрудников в веб-версии доступна только в демонстрационном режиме. Загрузка и работа с реальными сотрудниками — в полной версии для Windows.</p>
  <p class="tsub">Карточка каждого сотрудника: данные из файла, отпуска, почта и телефон. Почту и телефон можно дополнить здесь — они подставятся в уведомления. Данные обновляются после загрузки файла.</p>
- <div class="tbar tbar-main"><input type="text" id="emp-q" placeholder="Поиск: ФИО, табельный номер, отдел, должность"></div>
+ <div class="tbar tbar-main"><input type="text" id="emp-q" placeholder="Поиск: ФИО, табельный номер, отдел, должность"><label class="emp-hide"><input type="checkbox" id="emp-hide-fired"> Скрывать уволенных</label></div>
  <div class="emp-list" id="emp-list"></div>
 </section>
 
@@ -1120,6 +1141,6 @@ footer{padding-top:14px;border-top:1px solid var(--line)}
 <script src="js/demo.js"></script>
 <script src="js/boot.js"></script>
 <script src="community.js"></script>
-<script src="showcase.js?v=6.6.0-mwyk5pho-mwyk5pho"></script>
+<script src="showcase.js?v=6.6.0-mwymo7cv-mwymo7cv"></script>
 </body>
 </html>
