@@ -4,7 +4,7 @@ window.SVODKA_SITE = {
   demoUrl: "demo/?showcase=1",
   manifestUrl: "release/latest.json",
   leadUrl: "",
-  analytics: { provider: "goatcounter", site: "svodka" },
+  analytics: {"provider":"goatcounter","site":"svodka"},
   lockTitle: "Скачивание скоро",
   lockText: "Десктопная версия пока не выложена в открытый доступ. После оплаты пришлём ссылку в Telegram."
 };

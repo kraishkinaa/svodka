@@ -12,3 +12,5 @@
 ## Статистика
 
 Статистика GoatCounter уже включена: панель https://svodka.goatcounter.com. Счётчик не использует cookies и не собирает персональные данные. События: открытие демо, загрузка Excel, попытка скачивания, переход в Telegram.
+
+Своя панель аналитики: запустите `services/analytics`, а затем пересоберите страницу с адресом сервиса: `node tools/build-pages.js --analytics-url https://аналитика.example.ru`. Подробности — в `services/analytics/README.md`.
