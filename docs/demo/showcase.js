@@ -27,7 +27,7 @@
     bar.innerHTML =
       '<div class="showcase-brand"><span class="showcase-mark">' + icon() + "</span><b>Сводка</b><span>демо</span></div>" +
       '<div class="showcase-actions"><button type="button" class="p" id="showcase-upload">Загрузить Excel</button>' +
-      '<button type="button" id="showcase-tour">Обучение</button>' +
+      '<button type="button" id="showcase-tour">Узнать больше</button>' +
       '<span id="showcase-status" class="showcase-status">Данные не нужно вводить вручную</span>' +
       '<button type="button" id="showcase-cta">Скачать Desktop</button></div>' +
       '<input type="file" id="showcase-file" accept=".xlsx,.xls,.csv" hidden>' +

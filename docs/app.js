@@ -116,6 +116,18 @@
     const m = $("#dl-modal");
     if (m) m.hidden = true;
   }
+  function openPolicy() {
+    track("policy_open");
+    const m = $("#policy-modal");
+    if (!m) return;
+    m.hidden = false;
+    const b = $("#policy-ok");
+    if (b) b.focus();
+  }
+  function closePolicy() {
+    const m = $("#policy-modal");
+    if (m) m.hidden = true;
+  }
   function applyDownloadLock() {
     document.querySelectorAll("#dl-setup,#dl-portable").forEach((a) => {
       a.removeAttribute("href");
@@ -183,64 +195,26 @@
     .then(fillFromManifest)
     .catch(() => {});
 
-  /* Заявки на покупку. */
+  /* Заявки на покупку временно закрыты до публикации политики ПДн. */
   document.querySelectorAll("[data-plan]").forEach((b) =>
     b.addEventListener("click", () => {
       const sel = $("#lead-plan");
       if (sel) sel.value = b.dataset.plan;
-      const sec = $("#lead");
-      if (sec && sec.scrollIntoView) sec.scrollIntoView({ behavior: "smooth", block: "start" });
+      openPolicy();
     })
   );
   const form = $("#lead-form");
   if (form) {
-    if (!SITE.leadUrl) {
-      form.hidden = true;
-      const note = document.createElement("p");
-      note.className = "fine";
-      note.textContent = SITE.buyUrl
-        ? "Заявки и оплата — в Telegram. "
-        : "Заявки и оплата временно принимаются в Telegram. Ссылка скоро появится.";
-      if (SITE.buyUrl) {
-        const a = document.createElement("a");
-        a.href = SITE.buyUrl;
-        a.target = "_blank";
-        a.rel = "noopener";
-        a.textContent = "Написать в Telegram";
-        note.appendChild(a);
-      }
-      form.parentNode.insertBefore(note, form);
-    }
-    form.addEventListener("submit", async (e) => {
+    form.addEventListener("submit", (e) => {
       e.preventDefault();
-      const status = $("#lead-status");
-      const name = ($("#lead-name")?.value || "").trim();
-      const contact = ($("#lead-contact")?.value || "").trim();
-      const plan = $("#lead-plan")?.value || "month";
-      const comment = ($("#lead-comment")?.value || "").trim();
-      const say = (text, ok) => {
-        if (!status) return;
-        status.textContent = text;
-        status.style.color = ok ? "var(--ok)" : "var(--bad)";
-      };
-      if (!name || !contact) return say("Укажите имя и контакт", false);
-      track("lead");
-      const btn = form.querySelector('button[type="submit"]');
-      if (btn) btn.disabled = true;
-      try {
-        const r = await fetch("/api/lead", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ name, contact, plan, comment }),
-        });
-        if (!r.ok) throw new Error("HTTP " + r.status);
-        say("Заявка принята. Свяжемся с вами и пришлём счёт.", true);
-        form.reset();
-      } catch (err) {
-        say("Не удалось отправить. Напишите на sales@svodka.local или попробуйте позже.", false);
-      } finally {
-        if (btn) btn.disabled = false;
-      }
+      openPolicy();
     });
   }
+  $("#policy-ok")?.addEventListener("click", closePolicy);
+  $("#policy-modal")?.addEventListener("click", (e) => {
+    if (e.target === $("#policy-modal")) closePolicy();
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closePolicy();
+  });
 })();

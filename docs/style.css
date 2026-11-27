@@ -30,6 +30,10 @@ a:hover{text-decoration:underline}
 .release-dot{width:8px;height:8px;border-radius:50%;background:var(--acc);box-shadow:0 0 0 4px color-mix(in srgb,var(--acc) 16%,transparent);flex:none}
 .release-bar time,.release-note time{font-weight:700;color:var(--ink)}
 .release-note{max-width:720px;margin:14px auto 0;font-size:14px;color:var(--mut)}
+.hero-offer{display:inline-flex;align-items:center;justify-content:center;gap:9px;flex-wrap:wrap;margin:16px auto 0;padding:5px 14px 5px 5px;border:1px solid var(--line);border-radius:999px;background:var(--s);font-size:13px;color:var(--mut)}
+.free-badge{display:inline-block;background:var(--acc);color:#fff;border-radius:999px;padding:5px 12px;font-size:13px;font-weight:700;line-height:1.2}
+.plan-badge{display:inline-block;margin-left:7px;padding:2px 8px;border-radius:999px;background:var(--accs);color:var(--acc);font-size:11px;font-weight:700;vertical-align:1px}
+.policy-note{max-width:780px;margin:0 0 12px;color:var(--bad)}
 .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:22px}
 .steps>div{border:1px solid var(--line);border-radius:14px;padding:18px;background:var(--s)}
 .steps b{display:block;margin-bottom:6px}
@@ -45,7 +49,9 @@ a:hover{text-decoration:underline}
 .topic-grid span{display:block;color:var(--mut);font-size:13px}
 .footer-links{font-size:12px;margin:8px 0 0}
 .section{max-width:1060px;margin:0 auto;padding:40px 24px}
+.section>h2::before,.demo-intro h2::before{content:"";display:block;width:34px;height:3px;border-radius:2px;background:var(--acc);margin:0 0 10px}
 .section h2{font-size:26px;letter-spacing:-.02em;margin:0 0 8px}
+.section>.lead{text-align:left;margin-left:0;margin-right:0;max-width:780px}
 .demo-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:24px 0 12px}
 .card{background:var(--s);border:1px solid var(--line);border-radius:16px;padding:20px}
 .card.wide{grid-column:1/-1}
