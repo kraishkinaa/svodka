@@ -19,19 +19,28 @@
   function icon() {
     return '<svg viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="15" y="3" width="8" height="5" rx="2"/><rect x="3" y="15" width="8" height="8" rx="2"/><rect x="15" y="12" width="8" height="11" rx="2"/></svg>';
   }
+  function actionIcon(name) {
+    const paths = {
+      upload: '<path d="M12 16V4m-4 4 4-4 4 4"/><path d="M5 14v5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5"/>',
+      learn: '<path d="m12 3 1.6 5.4L19 10l-5.4 1.6L12 17l-1.6-5.4L5 10l5.4-1.6z"/><path d="m19 15 .8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/>',
+      download: '<path d="M12 4v11m-4-4 4 4 4-4"/><path d="M5 16v4h14v-4"/>',
+      shield: '<path d="M12 3 20 6v5c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6z"/><path d="m8.5 12 2.2 2.2 4.8-5"/>',
+    };
+    return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + (paths[name] || "") + "</svg>";
+  }
 
   function buildBar() {
     if ($(".showcase-bar")) return;
     const bar = document.createElement("div");
     bar.className = "showcase-bar";
     bar.innerHTML =
-      '<div class="showcase-brand"><span class="showcase-mark">' + icon() + "</span><b>Сводка</b><span>демо</span></div>" +
-      '<div class="showcase-actions"><button type="button" class="p" id="showcase-upload">Загрузить Excel</button>' +
-      '<button type="button" id="showcase-tour">Узнать больше</button>' +
+      '<div class="showcase-brand"><span class="showcase-mark">' + icon() + "</span><b>Сводка</b><span class=\"showcase-demo-label\">демо</span></div>" +
+      '<div class="showcase-actions"><button type="button" class="p" id="showcase-upload">' + actionIcon("upload") + "<span>Загрузить Excel</span></button>" +
+      '<button type="button" id="showcase-tour">' + actionIcon("learn") + "<span>Узнать больше</span></button>" +
       '<span id="showcase-status" class="showcase-status">Данные не нужно вводить вручную</span>' +
-      '<button type="button" id="showcase-cta">Скачать Desktop</button></div>' +
+      '<button type="button" id="showcase-cta">' + actionIcon("download") + "<span>Скачать Desktop</span></button></div>" +
       '<input type="file" id="showcase-file" accept=".xlsx,.xls,.csv" hidden>' +
-      '<div class="showcase-privacy" id="showcase-privacy">Файл читается в браузере. ФИО, почта и телефон заменяются на обезличенные; на сервер ничего не отправляется.</div>';
+      '<div class="showcase-privacy" id="showcase-privacy">' + actionIcon("shield") + "<span>Файл читается в браузере. ФИО, почта и телефон заменяются на обезличенные; на сервер ничего не отправляется.</span></div>";
     document.body.insertBefore(bar, document.body.firstChild);
     $("#showcase-upload")?.addEventListener("click", () => $("#showcase-file")?.click());
     $("#showcase-file")?.addEventListener("change", (e) => {
@@ -206,6 +215,9 @@
     document.body.classList.add("showcase-mode");
     buildBar();
     try {
+      st.edit = false;
+      st.pick = 0;
+      st.q = "";
       st.order = TOP.slice();
       st.hide = Object.keys(WG).filter((id) => TOP.indexOf(id) < 0);
       ROLED.role = "hrd";
